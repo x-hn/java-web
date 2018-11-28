@@ -7,15 +7,15 @@
 <title>Insert title here</title>
 </head>
 	<h1 align="center">登录界面</h1>
-<body>
+<body	background="t0144f3791b24151a1.jpg">
 	<form action="login" method="post">
 		<table align="center" border="1">
 			<tr>
-				<td>用户名:</td>
+				<td><font size="3"><strong>用户名:</strong></font></td>
 				<td><input type="text" name="username"/></td>
 			</tr>
 			<tr>
-				<td>密码：</td>
+				<td><font size="3"><strong>密码:</strong></font></td>
 				<td><input type="password" name="password"/></td>
 			</tr>
 			<tr>

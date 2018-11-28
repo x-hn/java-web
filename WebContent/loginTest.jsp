@@ -10,7 +10,8 @@
 	<%
 		String username=(String)request.getAttribute("name");
 	%>
-<body>
+<body background="t0144f3791b24151a3.jpg">
 	<p><span>欢迎你，<% out.println(username); %></span></p>
+	<a href="message.jsp"><font size="3"><strong>留言</strong></font></a> <a href="login.jsp">返回到主界面</a>
 </body>
 </html>
