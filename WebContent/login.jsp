@@ -22,6 +22,14 @@
 				<td><a href="resgiter.jsp">注册</a></td>
 				<td align="center"><input type="submit" value="登录"/></td>
 			</tr>
+			<tr>
+				<td colspan="2">
+				    <input type="checkbox" name="hobby" value="美食"/>美食
+				    <input type="checkbox" name="hobby" value="篮球"/>篮球
+				    <input type="checkbox" name="hobby" value="足球"/>足球
+				    <input type="checkbox" name="hobby" value="跳远"/>跳远
+				</td>
+			</tr>
 		</table>
 	</form>	
 </body>
