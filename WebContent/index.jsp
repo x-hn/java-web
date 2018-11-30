@@ -31,24 +31,21 @@
     </style>
 </head>
 	<% 
-		String loginInfo=(String)request.getAttribute("name");
+		String loginInfo=(String)request.getAttribute("loginname");
 	%>
-<body>
+<body background="60p58PICtXG_1024.jpg">
     <div class="h">
+    	<% if(loginInfo==null) {%>
         <a href="login.jsp">登录</a>
         <a href="resgiter.jsp">注册</a>
-        欢迎您，<span>
-        <%
-        	if(loginInfo!=null){
-        		out.println(loginInfo);	
-        	}else{
-        		out.println("陌生人");
-        	}
-        %>
-        </span>！
-    </div>
-    <div class="h">
-    	<a href="cancel.jsp">注销账户</a>
+        <%} else{ %>
+          欢迎您，<span>
+        <%if(loginInfo!=null){%>
+        	<%=loginInfo %>
+        <%} %>
+         </span>！
+        <a href="cancel.jsp" >注销账户</a>
+        <% } %>
     </div>
     <div>
         <h3>留言列表</h3>

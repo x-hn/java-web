@@ -22,8 +22,11 @@
 </script>
 </head>
 	<h1 align="center">登录界面</h1>
+	<%
+		String loginname=(String)request.getAttribute("loginname");
+	%>
 <body background="t0144f3791b24151a1.jpg">
-	<form id="form1" action="user" method="post" onsubmit="return check()">
+	<form id="form1" action="user" method="post" onsubmit="return check();">
 		<table align="center" border="1">
 		<input type="hidden" name="type" value="login" />
 			<tr>
@@ -37,15 +40,10 @@
 			<tr align="center" >
 				<td colspan="2"><input type="submit" value="登录"/></td>
 			</tr>
-			<!-- <tr>
-				<td colspan="2">
-				    <input type="checkbox" name="hobby" value="美食"/>美食
-				    <input type="checkbox" name="hobby" value="篮球"/>篮球
-				    <input type="checkbox" name="hobby" value="足球"/>足球
-				    <input type="checkbox" name="hobby" value="跳远"/>跳远
-				</td>
-			</tr> -->
 		</table>
+		<% if(loginname!=null) {%>
+			<h5 align="center"><%=loginname %></h5>
+		<% } %>
 	</form>	
 </body>
 </html>

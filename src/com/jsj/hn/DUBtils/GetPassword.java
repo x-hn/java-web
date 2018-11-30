@@ -3,10 +3,10 @@ package com.jsj.hn.DUBtils;
 import com.jsj.hn.DAO.IuserDAO;
 import com.jsj.hn.impel.userImpel;
 
-public class getId {
-	public static int getId(String str) {
+public class GetPassword {
+	public static String getPassword(String str) {
 		IuserDAO userDAO=new userImpel();
-		//userDAO.idTest(str);
-		return 1;
+		String id=(userDAO.Test(str)).getPassWord();
+		return id;
 	}
 }

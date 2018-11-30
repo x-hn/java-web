@@ -30,8 +30,12 @@ public interface IuserDAO {
 	 * 验证用户名和密码
 	 */
 	public boolean login(String username,String password);
-	
+	/*
+	 * 判断注册是用户是否重复
+	 */
 	public boolean repeat(String username);
-	
-	public int idTest(String usernaem);
+	/*
+	 * 获取要注销的用户id
+	 */
+	public User Test(String usernaem);
 }

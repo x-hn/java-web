@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jsj.hn.DAO.IuserDAO;
 import com.jsj.hn.DUBtils.DUBtilsString;
-import com.jsj.hn.DUBtils.RepeatString;
+import com.jsj.hn.DUBtils.GetId;
 import com.jsj.hn.impel.userImpel;
 import com.jsj.hn.model.User;
 @WebServlet("/user")
@@ -38,28 +38,33 @@ public class UserServlet extends HttpServlet {
 			resgiter(request, response, username, password,out);
 		}
 		if(type.equals("cancel")) {
-			//String name=login(request, response, username, password, out);
-			System.out.println(username);
-			//int id=userDAO.idTest(name);
-			//userDAO.delete(id);
+			String password1=request.getParameter("password1");
+			if(DUBtilsString.isNotNullandEmpety(username) && DUBtilsString.isNotNullandEmpety(password)&&DUBtilsString.isNotNullandEmpety(password1)&&password.equals(password1)) {
+				String name=request.getParameter("username");
+				userDAO.delete(GetId.getId(name));
+			}else {
+				request.setAttribute("canInfo", "用户名或密码不正确！！");
+				RequestDispatcher rd=request.getRequestDispatcher("/cancel.jsp");
+				rd.forward(request, response);
+			}		
 		}
 	}
 	//注册
 	private void resgiter(HttpServletRequest request, HttpServletResponse response, String username, String password,PrintWriter out)
 			throws ServletException, IOException {
 		String password1=request.getParameter("password1");
-		if(DUBtilsString.isNotNullandEmpety(username) && DUBtilsString.isNotNullandEmpety(password)  && DUBtilsString.isNotNullandEmpety(password1) && password.equals(password1)) {
-			if(RepeatString.isRepeatString(username)) {
+		if(DUBtilsString.isNotNullandEmpety(username) && DUBtilsString.isNotNullandEmpety(password)&&DUBtilsString.isNotNullandEmpety(password1)&&password.equals(password1)) {
+			if(userDAO.repeat(username)) {
+				request.setAttribute("regInfo", "用户名已存在！！");
+				RequestDispatcher rd=request.getRequestDispatcher("/resgiter.jsp");
+				rd.forward(request, response);
+			}else {
 				user.setUserName(username);
 				user.setPassWord(password);
 				userDAO.add(user);
-				RequestDispatcher rd=request.getRequestDispatcher("/resgiterSussce.jsp");
+				RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");
 				rd.forward(request, response);
-			}else {
-				out.println("不好意思，用户名已存在，请返回上一层！");
 			}
-		}else {
-			response.sendRedirect(request.getContextPath()+"/resgiterdefeat.jsp");
 		}
 	}
 
@@ -70,15 +75,13 @@ public class UserServlet extends HttpServlet {
 			boolean flag=userDAO.login(username, password);
 			if(flag) {
 				//请求转发方式，可携带数据
-				request.setAttribute("name", username);
+				request.setAttribute("loginname", username);
 				RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 				rd.forward(request, response);
 			}else {
-				/*
-				 * 可以跳转到指定页面或指定Servlet
-				 * 重定向,如果在某个目录下则需要加上路径
-				 */
-				response.sendRedirect(request.getContextPath()+"/mistake.jsp");
+				request.setAttribute("loginname", "用户名或密码错误！");
+				RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");
+				rd.forward(request, response);
 			}
 		}
 	}
