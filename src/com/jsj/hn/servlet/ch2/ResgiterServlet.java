@@ -1,4 +1,4 @@
-package com.jsj.hn.servlet;
+package com.jsj.hn.servlet.ch2;
 
 import java.io.IOException;
 

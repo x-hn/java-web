@@ -94,4 +94,30 @@ public class userImpel extends BaseDAO implements IuserDAO {
 		return user==null?false:true;
 	}
 
+	@Override
+	public boolean repeat(String username) {
+		User user=null;
+		String sql="select * from tuser where username=?";
+		Object[] obj=new Object[] {username};
+		this.queryBySql(sql, obj);
+		try {
+			while(rs.next()) {
+				user=new User();
+				user.setUserName(rs.getString("username"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			this.close(conn, st, rs);
+		}
+		return user==null?true:false;
+	}
+
+	@Override
+	public int idTest(String username) {
+		String sql="select id from tuser where username=?";
+		Object[] obj=new Object[] {username};
+		return this.updateBySql(sql, obj);
+	}
+
 }
