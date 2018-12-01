@@ -11,7 +11,7 @@
 		var flag=false;
 		var username=document.getElementById("username").value;
 		var password=document.getElementById("password").value;
-		if(username.length<3 || password.length<3){
+		if(username.length<2 || password.length<3){
 			alert("用户名或密码不符合要求,请重新输入！");
 		}else{
 			flag=true;

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jsj.hn.DAO.IuserDAO;
 import com.jsj.hn.DUBtils.DUBtilsString;
 import com.jsj.hn.DUBtils.GetId;
+import com.jsj.hn.DUBtils.GetPassword;
 import com.jsj.hn.impel.userImpel;
 import com.jsj.hn.model.User;
 @WebServlet("/user")
@@ -38,15 +39,22 @@ public class UserServlet extends HttpServlet {
 			resgiter(request, response, username, password,out);
 		}
 		if(type.equals("cancel")) {
-			String password1=request.getParameter("password1");
-			if(DUBtilsString.isNotNullandEmpety(username) && DUBtilsString.isNotNullandEmpety(password)&&DUBtilsString.isNotNullandEmpety(password1)&&password.equals(password1)) {
-				String name=request.getParameter("username");
-				userDAO.delete(GetId.getId(name));
-			}else {
-				request.setAttribute("canInfo", "用户名或密码不正确！！");
-				RequestDispatcher rd=request.getRequestDispatcher("/cancel.jsp");
-				rd.forward(request, response);
-			}		
+			cancel(request, response, username, password);		
+		}
+	}
+	//注销
+	private void cancel(HttpServletRequest request, HttpServletResponse response, String username, String password)
+			throws IOException, ServletException {
+		String password1=request.getParameter("password1");
+		String pass=GetPassword.getPassword(username);
+		if(DUBtilsString.isNotNullandEmpety(username) && DUBtilsString.isNotNullandEmpety(password)&&DUBtilsString.isNotNullandEmpety(password1)&&password.equals(password1)&&pass.equals(password)&&pass.equals(password1)) {
+			String name=request.getParameter("username");
+			userDAO.delete(GetId.getId(name));
+			response.sendRedirect(request.getContextPath()+"/index.jsp");
+		}else {
+			request.setAttribute("canInfo", "用户名或密码不正确！！");
+			RequestDispatcher rd=request.getRequestDispatcher("/cancel.jsp");
+			rd.forward(request, response);
 		}
 	}
 	//注册
