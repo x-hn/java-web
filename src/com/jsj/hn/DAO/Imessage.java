@@ -26,4 +26,7 @@ public interface Imessage {
 	 * 查询表上所有信息
 	 */
 	public abstract List<Message > getAll();
+	/*
+	 * 查询单个信息
+	 */
 }
