@@ -6,9 +6,11 @@ import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.jsj.hn.DAO.IuserDAO;
 import com.jsj.hn.DUBtils.DUBtilsString;
@@ -31,6 +33,7 @@ public class UserServlet extends HttpServlet {
 		String password=request.getParameter("password");
 		String type=request.getParameter("type");
 		PrintWriter out=response.getWriter();
+		
 
 		if(type.equals("login")) {
 			login(request, response, username, password, out);
@@ -86,6 +89,7 @@ public class UserServlet extends HttpServlet {
 				request.setAttribute("loginname", username);
 				RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 				rd.forward(request, response);
+				//usernameCookie.setMaxAge(60*60*60);
 			}else {
 				request.setAttribute("loginname", "用户名或密码错误！");
 				RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");

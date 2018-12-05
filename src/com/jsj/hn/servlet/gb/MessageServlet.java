@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jsj.hn.DAO.Imessage;
 import com.jsj.hn.DUBtils.DUBtilsString;
 import com.jsj.hn.DUBtils.GetId;
+import com.jsj.hn.DUBtils.GetPassword;
 import com.jsj.hn.impel.messageImpel;
 import com.jsj.hn.model.Message;
 @WebServlet("/message")
@@ -32,6 +34,22 @@ public class MessageServlet extends HttpServlet {
 		if(type.equals("addMessage")) {
 			addMessage(request, response, username, sdf);
 		}
+		if(type.equals("deleteMessage")) {
+			String password=request.getParameter("password");
+			String pass=GetPassword.getPassword(username);
+			if( DUBtilsString.isNotNullandEmpety(password) && pass.equals(password) ) {
+				String title=request.getParameter("title");
+				messageDAO.delete(GetId.getMessageId(title));
+				request.setAttribute("username", username);
+				RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
+				rd.forward(request, response);
+			}else {
+				request.setAttribute("messInfo", "用户名或密码错误!");
+				RequestDispatcher rd=request.getRequestDispatcher("/deleteMessage.jsp");
+				rd.forward(request, response);
+			}
+		}
+
 	}
 	//增加留言
 	private void addMessage(HttpServletRequest request, HttpServletResponse response, String username,
@@ -49,7 +67,7 @@ public class MessageServlet extends HttpServlet {
 			request.setAttribute("content", content);
 			request.setAttribute("time", time);
 			request.setAttribute("username", username);
-			RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
 		}
 	}

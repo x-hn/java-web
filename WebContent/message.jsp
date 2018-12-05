@@ -34,9 +34,7 @@
 	}
 </script>
 </head>
-	<%
-		
-	%>
+
 	<h1 align="center">欢迎进入留言系统</h1>
 <body background="message.jpg">
 	<form action="message" method="post" onsubmit="return check();">
@@ -52,7 +50,7 @@
             </tr>
             <tr>
                 <td>作者：</td>
-                <td><input type="text" name="username" /></td>
+                <td><input  type="text" id="username" name="username" /></td>
             </tr>
             <tr align="center">
                 <td colspan="2"><input type="submit" value="提交留言"/></td>

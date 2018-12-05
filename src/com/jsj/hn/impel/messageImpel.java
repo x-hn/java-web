@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.jsj.hn.DAO.Imessage;
 import com.jsj.hn.model.Message;
+import com.jsj.hn.model.User;
 
 public class messageImpel extends BaseDAO implements Imessage {
 
@@ -72,6 +73,24 @@ public class messageImpel extends BaseDAO implements Imessage {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public Message Test(String str) {
+		Message message=new Message();
+		String sql="select * from message where title=?";
+		Object[] obj=new Object[] {str};
+		this.queryBySql(sql, obj);
+		try {
+			while(rs.next()) {
+				message.setId(rs.getInt("id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			this.close(conn, st, rs);
+		}
+		return message;
 	}
 
 }

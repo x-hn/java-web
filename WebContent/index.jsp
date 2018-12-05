@@ -94,8 +94,8 @@
             <tr>
                 <td>操作：</td>
                 <td>
-                    <a href="MessageServlet">删除</a>
-                    <a href="#">编辑</a>
+                    <a href="deleteMessage.jsp">删除</a>
+                    <a href="updateMessage.jsp">编辑</a>
                 </td>
             </tr>
         </table>

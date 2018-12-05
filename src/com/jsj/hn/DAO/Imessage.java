@@ -29,4 +29,6 @@ public interface Imessage {
 	/*
 	 * 查询单个信息
 	 */
+	
+	public Message Test(String str);
 }
