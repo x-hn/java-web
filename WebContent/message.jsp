@@ -12,14 +12,9 @@
 		var flag=true;
 		var title=document.getElementById("title").value;
 		var content=document.getElementById("content").value;
-		var username=document.getElementById("username").value;
 		var Info=document.getElementById("Info");
 		if(title.length==0 || title==null){
 			Info.innerText="标题不能为空！";
-			flag=false;
-		}
-		if(username.length==0 || username==null){
-			Info.innerText="请输入作者名字！";
 			flag=false;
 		}
 		if(content.length==0){
@@ -34,11 +29,12 @@
 	}
 </script>
 </head>
-
+	<%
+		String loginname=(String)session.getAttribute("loginname");
+	%>
 	<h1 align="center">欢迎进入留言系统</h1>
 <body background="message.jpg">
-	<form action="message" method="post" onsubmit="return check();">
-	<input type="hidden" name="type" value="addMessage" />
+	<form action="message?type=addMessage" method="post" onsubmit="return check();">
 		<table align="center" border="1">
             <tr>
                 <td width="60px">标题：</td>
@@ -50,7 +46,7 @@
             </tr>
             <tr>
                 <td>作者：</td>
-                <td><input  type="text" id="username" name="username" /></td>
+                <td><%=loginname %></td>
             </tr>
             <tr align="center">
                 <td colspan="2"><input type="submit" value="提交留言"/></td>

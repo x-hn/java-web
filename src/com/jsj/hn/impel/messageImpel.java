@@ -2,12 +2,11 @@ package com.jsj.hn.impel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.jsj.hn.DAO.Imessage;
 import com.jsj.hn.model.Message;
-import com.jsj.hn.model.User;
-
 public class messageImpel extends BaseDAO implements Imessage {
 
 	@Override
@@ -76,10 +75,10 @@ public class messageImpel extends BaseDAO implements Imessage {
 	}
 
 	@Override
-	public Message Test(String str) {
+	public Message messageId(int userId) {
 		Message message=new Message();
-		String sql="select * from message where title=?";
-		Object[] obj=new Object[] {str};
+		String sql="select * from message where userid=?";
+		Object[] obj=new Object[] {userId};
 		this.queryBySql(sql, obj);
 		try {
 			while(rs.next()) {
@@ -92,5 +91,7 @@ public class messageImpel extends BaseDAO implements Imessage {
 		}
 		return message;
 	}
+
+	
 
 }

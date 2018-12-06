@@ -1,5 +1,6 @@
 package com.jsj.hn.DAO;
 
+import java.util.Date;
 import java.util.List;
 
 import com.jsj.hn.model.Message;
@@ -29,6 +30,5 @@ public interface Imessage {
 	/*
 	 * 查询单个信息
 	 */
-	
-	public Message Test(String str);
+	public Message messageId(int userId);
 }

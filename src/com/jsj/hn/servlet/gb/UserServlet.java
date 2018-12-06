@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import com.jsj.hn.DAO.IuserDAO;
 import com.jsj.hn.DUBtils.DUBtilsString;
-import com.jsj.hn.DUBtils.GetId;
 import com.jsj.hn.DUBtils.GetPassword;
 import com.jsj.hn.impel.userImpel;
 import com.jsj.hn.model.User;
@@ -33,32 +32,25 @@ public class UserServlet extends HttpServlet {
 		String password=request.getParameter("password");
 		String type=request.getParameter("type");
 		PrintWriter out=response.getWriter();
+		HttpSession session=request.getSession();
 		
 
 		if(type.equals("login")) {
-			login(request, response, username, password, out);
+			login(request, response, username, password, out,session);
 		}
 		if(type.equals("resgiter")) {
 			resgiter(request, response, username, password,out);
 		}
 		if(type.equals("cancel")) {
-			cancel(request, response, username, password);		
+			cancel(request, response, username, session);		
 		}
 	}
 	//注销
-	private void cancel(HttpServletRequest request, HttpServletResponse response, String username, String password)
+	private void cancel(HttpServletRequest request, HttpServletResponse response, String username, HttpSession session)
 			throws IOException, ServletException {
-		String password1=request.getParameter("password1");
-		String pass=GetPassword.getPassword(username);
-		if(DUBtilsString.isNotNullandEmpety(username) && DUBtilsString.isNotNullandEmpety(password)&&DUBtilsString.isNotNullandEmpety(password1)&&password.equals(password1)&&pass.equals(password)&&pass.equals(password1)) {
-			String name=request.getParameter("username");
-			userDAO.delete(GetId.getId(name));
-			response.sendRedirect(request.getContextPath()+"/index.jsp");
-		}else {
-			request.setAttribute("canInfo", "用户名或密码不正确！！");
-			RequestDispatcher rd=request.getRequestDispatcher("/cancel.jsp");
-			rd.forward(request, response);
-		}
+		session.removeAttribute("loginname");
+		session.invalidate();
+		response.sendRedirect("index.jsp");
 	}
 	//注册
 	private void resgiter(HttpServletRequest request, HttpServletResponse response, String username, String password,PrintWriter out)
@@ -81,15 +73,14 @@ public class UserServlet extends HttpServlet {
 
 	//登录
 	private void login(HttpServletRequest request, HttpServletResponse response, String username, String password,
-			PrintWriter out) throws ServletException, IOException {
+			PrintWriter out, HttpSession session) throws ServletException, IOException {
 		if(DUBtilsString.isNotNullandEmpety(username) || DUBtilsString.isNotNullandEmpety(password)) {
 			boolean flag=userDAO.login(username, password);
 			if(flag) {
 				//请求转发方式，可携带数据
-				request.setAttribute("loginname", username);
+				session.setAttribute("loginname", username);
 				RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 				rd.forward(request, response);
-				//usernameCookie.setMaxAge(60*60*60);
 			}else {
 				request.setAttribute("loginname", "用户名或密码错误！");
 				RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");

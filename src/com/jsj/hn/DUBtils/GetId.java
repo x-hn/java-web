@@ -6,14 +6,15 @@ import com.jsj.hn.impel.messageImpel;
 import com.jsj.hn.impel.userImpel;
 
 public class GetId {
-	public static int getId(String str) {
+	public static int getUserId(String str) {
 		IuserDAO userDAO=new userImpel();
-		int id=(userDAO.Test(str)).getId();
-		return id;
+		int userId=(userDAO.Test(str)).getId();
+		return userId;
 	}
-	public static int getMessageId(String str) {
+	public static int getMessageId(int userId) {
 		Imessage messageDAO=new messageImpel();
-		int id=(messageDAO.Test(str)).getId();
-		return id;
+		int messageId=(messageDAO.messageId(userId)).getId();
+		
+		return messageId;
 	}
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.jsj.hn.DAO.Imessage;
 import com.jsj.hn.DUBtils.DUBtilsString;
@@ -28,32 +29,54 @@ public class MessageServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String type=request.getParameter("type");
-		String username=request.getParameter("username");
+		HttpSession session=request.getSession();
+		String username=(String) session.getAttribute("loginname");
+		String updateTitle=request.getParameter("updateTitle");
+		String updateContent=request.getParameter("updateContent");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy"+"年"+"MM"+"月"+"dd"+"日");
-		
+
 		if(type.equals("addMessage")) {
-			addMessage(request, response, username, sdf);
+			addMessage(request, response, username, sdf,session);
 		}
 		if(type.equals("deleteMessage")) {
-			String password=request.getParameter("password");
-			String pass=GetPassword.getPassword(username);
-			if( DUBtilsString.isNotNullandEmpety(password) && pass.equals(password) ) {
-				String title=request.getParameter("title");
-				messageDAO.delete(GetId.getMessageId(title));
-				request.setAttribute("username", username);
-				RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
-				rd.forward(request, response);
-			}else {
-				request.setAttribute("messInfo", "用户名或密码错误!");
-				RequestDispatcher rd=request.getRequestDispatcher("/deleteMessage.jsp");
-				rd.forward(request, response);
-			}
+			deleteMessage(request, response, session);
+		}
+		if(type.equals("updateMessage")) {
+			updateMessage(request, response, session, username, updateTitle, updateContent);
 		}
 
 	}
+	//编辑已存在留言
+	private void updateMessage(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+			String username, String updateTitle, String updateContent) throws ServletException, IOException {
+		int messageId=GetId.getMessageId((GetId.getUserId(username)));
+		if(DUBtilsString.isNotNullandEmpety(updateTitle)&&DUBtilsString.isNotNullandEmpety(updateContent)) {
+			message.setId(messageId);
+			message.setTitle(updateTitle);
+			message.setContent(updateContent);
+			message.setCreateDateTime(new Date());
+			messageDAO.update(message);
+			session.removeAttribute("title");
+			session.removeAttribute("content");
+			session.setAttribute("updateTitle", updateTitle);
+			session.setAttribute("updateContent", updateContent);
+			RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+			rd.forward(request, response);
+		}
+	}
+	//实现删除留言的功能
+	private void deleteMessage(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+			throws ServletException, IOException {
+		session.removeAttribute("title");
+		session.removeAttribute("content");
+		session.removeAttribute("updateTitle");
+		session.removeAttribute("updateContent");
+		RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+		rd.forward(request, response);
+	}
 	//增加留言
 	private void addMessage(HttpServletRequest request, HttpServletResponse response, String username,
-			SimpleDateFormat sdf) throws ServletException, IOException {
+			SimpleDateFormat sdf,HttpSession session) throws ServletException, IOException {
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
 		String time=sdf.format(new Date());
@@ -61,12 +84,11 @@ public class MessageServlet extends HttpServlet {
 			message.setTitle(title);
 			message.setContent(content);
 			message.setCreateDateTime(new Date());
-			message.setUserId(GetId.getId(username));
+			message.setUserId(GetId.getUserId(username));
 			messageDAO.add(message);
-			request.setAttribute("title", title);
-			request.setAttribute("content", content);
-			request.setAttribute("time", time);
-			request.setAttribute("username", username);
+			session.setAttribute("title", title);
+			session.setAttribute("content", content);
+			session.setAttribute("time", time);
 			RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 			rd.forward(request, response);
 		}

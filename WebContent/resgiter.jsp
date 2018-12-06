@@ -35,9 +35,8 @@
 		String regInfo=(String)request.getAttribute("regInfo");
 	%>
 <body background="17942401_101320663138_2.jpg">
-	<form action="user" method="post" onsubmit="return check();">
+	<form action="user?type=resgiter" method="post" onsubmit="return check();">
 		<table align="center" border="1">
-		<input type="hidden" name="type" value="resgiter" />
 			<tr>
 				<td><font size="3" color="brown"><strong>用户名:</strong></font></td>
 				<td><input type="text" id="username" name="username"/></td>

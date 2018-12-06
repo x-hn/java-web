@@ -26,9 +26,8 @@
 		String loginname=(String)request.getAttribute("loginname");
 	%>
 <body background="t0144f3791b24151a1.jpg">
-	<form id="form1" action="user" method="post" onsubmit="return check();">
+	<form id="form1" action="user?type=login" method="post" onsubmit="return check();">
 		<table align="center" border="1">
-		<input type="hidden" name="type" value="login" />
 			<tr>
 				<td><font size="3"><strong>用户名:</strong></font></td>
 				<td><input type="text" id="username" name="username"/></td>

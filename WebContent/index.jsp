@@ -31,15 +31,17 @@
     </style>
 </head>
 	<% 
-		String loginInfo=(String)request.getAttribute("loginname");
-		String title=(String)request.getAttribute("title");
-		String content=(String)request.getAttribute("content");
-		String username=(String)request.getAttribute("username");
-		String time=(String)request.getAttribute("time");
+		String loginInfo=(String)session.getAttribute("loginname");
+		String title=(String)session.getAttribute("title");
+		String content=(String)session.getAttribute("content");
+		String time=(String)session.getAttribute("time");
+		String updateTitle=(String)session.getAttribute("updateTitle");
+		String updateContent=(String)session.getAttribute("updateContent");
+		
 	%>
 <body background="60p58PICtXG_1024.jpg">
     <div class="h">
-    	<% if(loginInfo==null && username==null){%>
+    	<% if(loginInfo==null){%>
     	<a href="login.jsp">登录</a>
         <a href="resgiter.jsp">注册</a>
         <%} else{ %>
@@ -47,23 +49,23 @@
         <%if(loginInfo!=null){%>
         	<%=loginInfo %>
         <%} %>
-        <%if(username!=null){%>
-        	<%=username %>
-        <%} %>
          </span>！
-        <a href="cancel.jsp" >注销账户</a>
+        <a href="user?type=cancel" >注销账户</a>
         <p><a href="message.jsp" >我要留言</a></p>
         <% } %>
     </div>
     <div>
         <h3>留言列表</h3>
-        <%if(title!=null){ %>
+        <%if(title!=null || updateTitle!=null){ %>
         <table>
             <tr>
                 <td width="60px">标题：</td>
                 <td>
                 	<%if(title!=null){ %>
                 	<%=title %>
+                	<%} %>
+                	<%if(title==null){ %>
+                	<%=updateTitle %>
                 	<%} %>
                 </td>
             </tr>
@@ -72,6 +74,9 @@
                 <td>
                		<%if(content!=null){ %>
                 	<%=content %>
+                	<%} %>
+                	<%if(content==null){ %>
+                	<%=updateContent %>
                 	<%} %>
                 </td>
             </tr>
@@ -86,15 +91,15 @@
             <tr>
                 <td>作者：</td>
                 <td>
-                	<%if(username!=null){ %>
-                	<%=username %>
+                	<%if(loginInfo!=null){ %>
+                	<%=loginInfo %>
                 	<%} %>
                 </td>
             </tr>
             <tr>
                 <td>操作：</td>
                 <td>
-                    <a href="deleteMessage.jsp">删除</a>
+                    <a href="message?type=deleteMessage">删除</a>
                     <a href="updateMessage.jsp">编辑</a>
                 </td>
             </tr>
