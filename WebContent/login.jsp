@@ -24,20 +24,36 @@
 	<h1 align="center">登录界面</h1>
 	<%
 		String loginname=(String)request.getAttribute("loginname");
+		String username="";
+		String password="";
+		Cookie[] cookies=request.getCookies();
+		if(cookies!=null){
+			for(Cookie cookie:cookies){
+				if(cookie.getName().equalsIgnoreCase("username")){
+					username=cookie.getValue();
+				}
+				if(cookie.getName().equalsIgnoreCase("password")){
+					password=cookie.getValue();
+				}
+			}
+		}
 	%>
 <body background="t0144f3791b24151a1.jpg">
 	<form id="form1" action="user?type=login" method="post" onsubmit="return check();">
 		<table align="center" border="1">
 			<tr>
 				<td><font size="3"><strong>用户名:</strong></font></td>
-				<td><input type="text" id="username" name="username"/></td>
+				<td><input type="text" id="username" name="username" value="<%=username%>"/></td>
 			</tr>
 			<tr>
 				<td><font size="3"><strong>密码:</strong></font></td>
-				<td><input type="password" id="password" name="password"/></td>
+				<td><input type="password" id="password" name="password" value="<%=password%>"/></td>
 			</tr>
 			<tr align="center" >
-				<td colspan="2"><input type="submit" value="登录"/></td>
+				<td colspan="2">
+					<input type="submit" value="登录"/>
+					<input type="checkbox" name="isUserCookie" />记住密码
+				</td>
 			</tr>
 		</table>
 		<% if(loginname!=null) {%>

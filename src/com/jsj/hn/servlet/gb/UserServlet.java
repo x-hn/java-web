@@ -33,10 +33,10 @@ public class UserServlet extends HttpServlet {
 		String type=request.getParameter("type");
 		PrintWriter out=response.getWriter();
 		HttpSession session=request.getSession();
-		
+		String isUserCookie=request.getParameter("isUserCookie");
 
 		if(type.equals("login")) {
-			login(request, response, username, password, out,session);
+			login(request, response, username, password, out,session,isUserCookie);
 		}
 		if(type.equals("resgiter")) {
 			resgiter(request, response, username, password,out);
@@ -73,10 +73,29 @@ public class UserServlet extends HttpServlet {
 
 	//登录
 	private void login(HttpServletRequest request, HttpServletResponse response, String username, String password,
-			PrintWriter out, HttpSession session) throws ServletException, IOException {
+			PrintWriter out, HttpSession session,String isUserCookie) throws ServletException, IOException {
 		if(DUBtilsString.isNotNullandEmpety(username) || DUBtilsString.isNotNullandEmpety(password)) {
 			boolean flag=userDAO.login(username, password);
 			if(flag) {
+				//判断是否记住登录状态
+				if(isUserCookie!=null) {
+					Cookie usernameCookie=new Cookie("username",username);
+					Cookie passwordCookie=new Cookie("password",password);
+					usernameCookie.setMaxAge(7*24*60*60);
+					passwordCookie.setMaxAge(7*24*60*60);
+					response.addCookie(usernameCookie);
+					response.addCookie(passwordCookie);
+				}else {
+					Cookie[] cookie=request.getCookies();
+					if(cookie!=null && cookie.length>0) {
+						for(Cookie cookies:cookie) {
+							if(cookies.getName().equalsIgnoreCase("username")||cookies.getName().equalsIgnoreCase("password")) {
+								cookies.setMaxAge(0);
+								response.addCookie(cookies);
+							}
+						}
+					}
+				}
 				//请求转发方式，可携带数据
 				session.setAttribute("loginname", username);
 				RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
