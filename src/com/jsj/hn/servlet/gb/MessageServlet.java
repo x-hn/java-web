@@ -3,6 +3,7 @@ package com.jsj.hn.servlet.gb;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -34,6 +35,7 @@ public class MessageServlet extends HttpServlet {
 		String updateTitle=request.getParameter("updateTitle");
 		String updateContent=request.getParameter("updateContent");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy"+"年"+"MM"+"月"+"dd"+"日");
+		
 
 		if(type.equals("addMessage")) {
 			addMessage(request, response, username, sdf,session);
