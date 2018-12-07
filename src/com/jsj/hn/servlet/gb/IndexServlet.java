@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jsj.hn.DAO.Imessage;
 import com.jsj.hn.impel.messageImpel;
 import com.jsj.hn.model.Message;
-@WebServlet("/")
+@WebServlet("/index")
 public class IndexServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,7 +22,6 @@ public class IndexServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("jkfjdsfjdsjfkjjjjjjkl");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");

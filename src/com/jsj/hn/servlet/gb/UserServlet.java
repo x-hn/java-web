@@ -33,6 +33,8 @@ public class UserServlet extends HttpServlet {
 		String type=request.getParameter("type");
 		PrintWriter out=response.getWriter();
 		HttpSession session=request.getSession();
+		User loginU=(User) session.getAttribute("loginUser");
+		
 		String isUserCookie=request.getParameter("isUserCookie");
 
 		if(type.equals("login")) {
@@ -48,9 +50,9 @@ public class UserServlet extends HttpServlet {
 	//注销
 	private void cancel(HttpServletRequest request, HttpServletResponse response, String username, HttpSession session)
 			throws IOException, ServletException {
-		session.removeAttribute("loginname");
+		session.removeAttribute("loginUser");
 		session.invalidate();
-		response.sendRedirect("index.jsp");
+		response.sendRedirect(request.getContextPath()+"/index");
 	}
 	//注册
 	private void resgiter(HttpServletRequest request, HttpServletResponse response, String username, String password,PrintWriter out)
@@ -75,8 +77,8 @@ public class UserServlet extends HttpServlet {
 	private void login(HttpServletRequest request, HttpServletResponse response, String username, String password,
 			PrintWriter out, HttpSession session,String isUserCookie) throws ServletException, IOException {
 		if(DUBtilsString.isNotNullandEmpety(username) || DUBtilsString.isNotNullandEmpety(password)) {
-			boolean flag=userDAO.login(username, password);
-			if(flag) {
+			User u=userDAO.login(username, password);
+			if(u!=null) {
 				//判断是否记住登录状态
 				if(isUserCookie!=null) {
 					Cookie usernameCookie=new Cookie("username",username);
@@ -96,10 +98,8 @@ public class UserServlet extends HttpServlet {
 						}
 					}
 				}
-				//请求转发方式，可携带数据
-				session.setAttribute("loginname", username);
-				RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
-				rd.forward(request, response);
+				session.setAttribute("loginUser", u);
+				response.sendRedirect(request.getContextPath()+"/index");
 			}else {
 				request.setAttribute("loginname", "用户名或密码错误！");
 				RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");

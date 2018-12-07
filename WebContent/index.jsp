@@ -2,45 +2,30 @@
 <%@page import="java.util.*"%>
 <%@page import="com.jsj.hn.model.*"%>
 <%@ include file="/layout/head.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-        *{
-            font-size: 14px;
-        }
-        div{
-            margin: 0 auto;
-            width: 800px;                        
-            margin-bottom: 5px;
-            padding:2px;
-        }
-        .h{
-            text-align: right;
-        }
-        h3{
-            text-align: center;
-        }
-        table{
-            border:1px solid blue;
-            border-collapse: collapse;
-            width:800px;
-            margin:5px;
-        }
-        td{
-            border:1px solid blue;
-        }
-    </style>
-</head>
-	
+
 <body background="60p58PICtXG_1024.jpg">
-   
+  	<div class="h">
+    	<a href="login.jsp">登录</a>
+        <a href="resgiter.jsp">注册</a>
+        <%
+        	if(Calendar.getInstance().get(Calendar.AM_PM)==Calendar.AM){
+        %>
+        	 上午好，<span>
+        <%}else{ %>
+        	下午好，<span>
+        <% }%>
+       	
+        <%if(loginUser.getUserName()!=null){%>
+        	<%=loginUser.getUserName() %>
+         </span>！
+        <a href="user?type=cancel" >注销账户</a>
+     	<p><a href="message.jsp" >我要留言</a></p>
+        <% } %>
+    </div> 
     <div>
         <h3>留言列表</h3>
         
-        <%if(title!=null || updateTitle!=null){ %>
+      <%--   <%if(title!=null || updateTitle!=null){ %>
         <table>
             <tr>
                 <td width="60px">标题：</td>
@@ -88,7 +73,7 @@
                 </td>
             </tr>
         </table>
-		<%} %>
+		<%} %> --%>
 		
 		<%
         		List<Message> messageList=(List<Message>)request.getAttribute("messageList");

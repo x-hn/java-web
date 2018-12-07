@@ -75,7 +75,7 @@ public class userImpel extends BaseDAO implements IuserDAO {
 	}
 
 	@Override
-	public boolean login(String username, String password) {
+	public User login(String username, String password) {
 		User user=null;
 		String sql="select * from tuser where username=? and password=?";
 		Object[] obj=new Object[] {username,password};
@@ -91,7 +91,7 @@ public class userImpel extends BaseDAO implements IuserDAO {
 		}finally {
 			this.close(conn, st, rs);
 		}
-		return user==null?false:true;
+		return user;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.jsj.hn.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +24,6 @@
 </head>
 	<h1 align="center">登录界面</h1>
 	<%
-		String loginname=(String)request.getAttribute("loginname");
 		String username="";
 		String password="";
 		Cookie[] cookies=request.getCookies();
@@ -37,6 +37,8 @@
 				}
 			}
 		}
+		User loginUser=(User)session.getAttribute("loginUser");
+		String loginname=(String)request.getAttribute("loginname");
 	%>
 <body background="t0144f3791b24151a1.jpg">
 	<form id="form1" action="user?type=login" method="post" onsubmit="return check();">
@@ -56,7 +58,7 @@
 				</td>
 			</tr>
 		</table>
-		<% if(loginname!=null) {%>
+		<% if((loginUser.getUserName())!=null) {%>
 			<h5 align="center"><%=loginname %></h5>
 		<% } %>
 	</form>	

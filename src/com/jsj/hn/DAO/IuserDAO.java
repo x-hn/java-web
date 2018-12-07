@@ -29,7 +29,7 @@ public interface IuserDAO {
 	/*
 	 * 验证用户名和密码
 	 */
-	public boolean login(String username,String password);
+	public User login(String username,String password);
 	/*
 	 * 判断注册是用户是否重复
 	 */
