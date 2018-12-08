@@ -58,7 +58,7 @@
 				</td>
 			</tr>
 		</table>
-		<% if((loginUser.getUserName())!=null) {%>
+		<% if(loginUser!=null) {%>
 			<h5 align="center"><%=loginname %></h5>
 		<% } %>
 	</form>	

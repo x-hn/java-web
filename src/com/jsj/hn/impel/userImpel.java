@@ -83,8 +83,10 @@ public class userImpel extends BaseDAO implements IuserDAO {
 		try {
 			while(rs.next()) {
 				user=new User();
+				user.setId(rs.getInt("id"));
 				user.setUserName(rs.getString("username"));
 				user.setPassWord(rs.getString("password"));
+				user.setRoleId(rs.getInt("roleid"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

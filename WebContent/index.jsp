@@ -5,8 +5,10 @@
 
 <body background="60p58PICtXG_1024.jpg">
   	<div class="h">
+  		 <%if(loginUser==null) {%>
     	<a href="login.jsp">登录</a>
         <a href="resgiter.jsp">注册</a>
+        <%}else { %>
         <%
         	if(Calendar.getInstance().get(Calendar.AM_PM)==Calendar.AM){
         %>
@@ -14,67 +16,16 @@
         <%}else{ %>
         	下午好，<span>
         <% }%>
-       	
         <%if(loginUser.getUserName()!=null){%>
         	<%=loginUser.getUserName() %>
          </span>！
         <a href="user?type=cancel" >注销账户</a>
      	<p><a href="message.jsp" >我要留言</a></p>
         <% } %>
+        <%} %> 
     </div> 
     <div>
         <h3>留言列表</h3>
-        
-      <%--   <%if(title!=null || updateTitle!=null){ %>
-        <table>
-            <tr>
-                <td width="60px">标题：</td>
-                <td>
-                	<%if(title!=null){ %>
-                	<%=title %>
-                	<%} %>
-                	<%if(title==null){ %>
-                	<%=updateTitle %>
-                	<%} %>
-                </td>
-            </tr>
-            <tr>
-                <td>内容：</td>
-                <td>
-               		<%if(content!=null){ %>
-                	<%=content %>
-                	<%} %>
-                	<%if(content==null){ %>
-                	<%=updateContent %>
-                	<%} %>
-                </td>
-            </tr>
-            <tr>
-                <td>时间：</td>
-                <td>
-                	<%if(time!=null){ %>
-                	<%=time %>
-                	<%} %>
-                </td>
-            </tr>
-            <tr>
-                <td>作者：</td>
-                <td>
-                	<%if(loginInfo!=null){ %>
-                	<%=loginInfo %>
-                	<%} %>
-                </td>
-            </tr>
-            <tr>
-                <td>操作：</td>
-                <td>
-                    <a href="message?type=deleteMessage">删除</a>
-                    <a href="updateMessage.jsp">编辑</a>
-                </td>
-            </tr>
-        </table>
-		<%} %> --%>
-		
 		<%
         		List<Message> messageList=(List<Message>)request.getAttribute("messageList");
         		for(Message m:messageList){
@@ -94,7 +45,7 @@
             </tr>
             <tr>
                 <td>作者：</td>
-                <td><%=m.getUserId() %></td>
+                <td><%=getid.getMessageName(m.getUserId()) %></td>
             </tr>
             <tr>
                 <td>操作：</td>

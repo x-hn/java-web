@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import com.jsj.hn.DAO.IuserDAO;
 import com.jsj.hn.DUBtils.DUBtilsString;
-import com.jsj.hn.DUBtils.GetPassword;
 import com.jsj.hn.impel.userImpel;
 import com.jsj.hn.model.User;
 @WebServlet("/user")

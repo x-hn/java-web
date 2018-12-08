@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="com.jsj.hn.model.*"%>
+<%@page import="com.jsj.hn.DUBtils.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +41,6 @@
 		String time=(String)session.getAttribute("time");
 		String updateTitle=(String)session.getAttribute("updateTitle");
 		String updateContent=(String)session.getAttribute("updateContent");
-		
+		GetId getid=new GetId();
 	%>
 </head>	

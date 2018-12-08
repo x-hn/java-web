@@ -1,11 +1,35 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="com.jsj.hn.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+        *{
+            font-size: 14px;
+        }
+        div{
+            margin: 0 auto;
+            width: 800px;                        
+            margin-bottom: 5px;
+            padding:2px;
+        }
+        h3{
+            text-align: center;
+        }
+        table{
+            border:1px solid blue;
+            border-collapse: collapse;
+            width:800px;
+            margin:5px;
+        }
+        td{
+            border:1px solid blue;
+        }
+</style>
 <script type="text/javascript">
 	
 	function check(){
@@ -30,29 +54,31 @@
 </script>
 </head>
 	<%
-		String loginname=(String)session.getAttribute("loginname");
+		User loginUser=(User)session.getAttribute("loginUser");
 	%>
 	<h1 align="center">欢迎进入留言系统</h1>
 <body background="message.jpg">
+	<div>
 	<form action="message?type=addMessage" method="post" onsubmit="return check();">
-		<table align="center" border="1">
+		<table>
             <tr>
                 <td width="60px">标题：</td>
-                <td><input  type="text" id="title" name="title" /></td>
+                <td><input  type="text" id="title" name="title" size="50"/></td>
             </tr>
             <tr>
                 <td>内容：</td>
-                <td><textarea  rows="5" cols="15" id="content" name="content"></textarea></td>
+                <td><textarea  rows="15" cols="100" id="content" name="content"></textarea></td>
             </tr>
             <tr>
                 <td>作者：</td>
-                <td><%=loginname %></td>
+                <td><%=loginUser.getUserName()%></td>
             </tr>
             <tr align="center">
                 <td colspan="2"><input type="submit" value="提交留言"/></td>
             </tr>
         </table>
-        <h5 align="center" id="Info"></h5>
+        <h3 id="Info"></h3>
 	</form>
+	</div>
 </body>
 </html>

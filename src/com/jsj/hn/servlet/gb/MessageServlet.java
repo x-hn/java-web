@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
 import com.jsj.hn.DAO.Imessage;
 import com.jsj.hn.DUBtils.DUBtilsString;
 import com.jsj.hn.DUBtils.GetId;
-import com.jsj.hn.DUBtils.GetPassword;
 import com.jsj.hn.impel.messageImpel;
 import com.jsj.hn.model.Message;
 import com.jsj.hn.model.User;
@@ -26,33 +25,34 @@ public class MessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 2412704431604875678L;
 	private Imessage messageDAO=new messageImpel();
 	private Message message=new Message();
+	private User lgoinU;
+	private SimpleDateFormat sdf;
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String type=request.getParameter("type");
 		HttpSession session=request.getSession();
-		User lgoinU=(User) session.getAttribute("loginUser");
-		
+		lgoinU=(User) session.getAttribute("loginUser");
 		String updateTitle=request.getParameter("updateTitle");
 		String updateContent=request.getParameter("updateContent");
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy"+"年"+"MM"+"月"+"dd"+"日");
+		sdf=new SimpleDateFormat("yyyy"+"年"+"MM"+"月"+"dd"+"日");
 		
 
 		if(type.equals("addMessage")) {
-			addMessage(request, response, sdf,session,lgoinU);
+			addMessage(request, response,session);
 		}
 		if(type.equals("deleteMessage")) {
 			deleteMessage(request, response, session);
 		}
 		if(type.equals("updateMessage")) {
-			updateMessage(request, response, session, updateTitle, updateContent,lgoinU);
+			updateMessage(request, response, session, updateTitle, updateContent);
 		}
 
 	}
 	//编辑已存在留言
 	private void updateMessage(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			 String updateTitle, String updateContent,User lgoinU) throws ServletException, IOException {
+			 String updateTitle, String updateContent) throws ServletException, IOException {
 		int messageId=GetId.getMessageId((lgoinU.getId()));
 		if(DUBtilsString.isNotNullandEmpety(updateTitle)&&DUBtilsString.isNotNullandEmpety(updateContent)) {
 			message.setId(messageId);
@@ -61,8 +61,6 @@ public class MessageServlet extends HttpServlet {
 			message.setCreateDateTime(new Date());
 			message.setUserId(lgoinU.getId());
 			messageDAO.update(message);
-			session.removeAttribute("title");
-			session.removeAttribute("content");
 			session.setAttribute("updateTitle", updateTitle);
 			session.setAttribute("updateContent", updateContent);
 			response.sendRedirect(request.getContextPath()+"/index");
@@ -71,15 +69,13 @@ public class MessageServlet extends HttpServlet {
 	//实现删除留言的功能
 	private void deleteMessage(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
-		session.removeAttribute("title");
-		session.removeAttribute("content");
-		session.removeAttribute("updateTitle");
-		session.removeAttribute("updateContent");
+		String content=(messageDAO.get(GetId.getMessageId(lgoinU.getId()))).getContent();
+		messageDAO.delete(GetId.getMessageId(lgoinU.getId()));
 		response.sendRedirect(request.getContextPath()+"/index");
 	}
 	//增加留言
 	private void addMessage(HttpServletRequest request, HttpServletResponse response,
-			SimpleDateFormat sdf,HttpSession session,User lgoinU) throws ServletException, IOException {
+			HttpSession session) throws ServletException, IOException {
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
 		String time=sdf.format(new Date());
