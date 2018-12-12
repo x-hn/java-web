@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.jsj.hn.model.*"%>
+<%@page import="com.jsj.hn.DAO.*"%>
+<%@page import="com.jsj.hn.impel.*"%>
+<%@page import="java.util.Date"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,14 +29,25 @@
         td{
             border:1px solid blue;
         }
+        style{
+        	resize:none;
+        }
+		textarea{
+		    width:600px;
+		    max-width:750px;
+		    height:100px;
+		    max-height:100px;
+		    overflow-y:auto;
+		}
 </style>
 </head>
 	<h2 align="center">编辑留言</h2>
 	<%
+		Imessage messageDAO=new messageImpel();
 		User loginUser=(User)session.getAttribute("loginUser");	
-		String title=(String)session.getAttribute("title");
-		String content=(String)session.getAttribute("content");
-		String time=(String)session.getAttribute("time");
+		String title=(messageDAO.messageId(loginUser.getId())).getTitle();
+		String content=(messageDAO.messageId(loginUser.getId())).getContent();
+		Date time=(messageDAO.messageId(loginUser.getId())).getCreateDateTime();
 	%>
 <body  background="message.jpg">
 	<div>
@@ -41,11 +55,11 @@
 		<table>
 			<tr>
 				<td>标题: </td>
-				<td><textarea row="5" cols="20" name="updateTitle"><%=title %></textarea></td>
+				<td><textarea row="5" cols="20" name="updateTitle" style=resize:none><%=title %></textarea></td>
 			</tr>
 			<tr>
 				<td>内容: </td>
-				<td><textarea row="15" cols="100" name="updateContent"><%=content %></textarea></td>
+				<td><textarea name="updateContent" style=resize:none><%=content %></textarea></td>
 			</tr>
 			<tr>
 				<td>日期: </td>

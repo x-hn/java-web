@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="java.util.*"%>
+<%@page import="java.util.*"%>h
 <%@page import="com.jsj.hn.model.*"%>
 <%@ include file="/layout/head.jsp" %>
 
@@ -45,7 +45,7 @@
             </tr>
             <tr>
                 <td>作者：</td>
-                <td><%=getid.getMessageName(m.getUserId()) %></td>
+                <td><%=GetId.getMessageName(m.getUserId()) %></td>
             </tr>
             <tr>
                 <td>操作：</td>

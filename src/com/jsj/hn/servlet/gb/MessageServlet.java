@@ -1,6 +1,7 @@
 package com.jsj.hn.servlet.gb;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -25,52 +26,63 @@ public class MessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 2412704431604875678L;
 	private Imessage messageDAO=new messageImpel();
 	private Message message=new Message();
-	private User lgoinU;
+	private User loginU;
 	private SimpleDateFormat sdf;
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		String type=request.getParameter("type");
 		HttpSession session=request.getSession();
-		lgoinU=(User) session.getAttribute("loginUser");
+		loginU=(User) session.getAttribute("loginUser");
+		String type=request.getParameter("type");
 		String updateTitle=request.getParameter("updateTitle");
 		String updateContent=request.getParameter("updateContent");
 		sdf=new SimpleDateFormat("yyyy"+"年"+"MM"+"月"+"dd"+"日");
-		
+		PrintWriter out=response.getWriter();
 
 		if(type.equals("addMessage")) {
 			addMessage(request, response,session);
 		}
 		if(type.equals("deleteMessage")) {
-			deleteMessage(request, response, session);
+
+			if(loginU.getRoleId()==1) {
+				List<Message> messageIdList=messageDAO.getAll();
+				for(Message i:messageIdList) {
+					if(GetId.getMessageName(i.getUserId()).equals("")) {
+						messageDAO.delete(GetId.getMessageId(i.getUserId()));
+						response.sendRedirect(request.getContextPath()+"/index");
+					}
+				}
+			}else if(loginU.getRoleId()==2) {
+				deleteMessage(request, response, session);
+			}
 		}
 		if(type.equals("updateMessage")) {
 			updateMessage(request, response, session, updateTitle, updateContent);
 		}
 
+
 	}
 	//编辑已存在留言
 	private void updateMessage(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			 String updateTitle, String updateContent) throws ServletException, IOException {
-		int messageId=GetId.getMessageId((lgoinU.getId()));
+			String updateTitle, String updateContent) throws ServletException, IOException {
+		int messageId=GetId.getMessageId((loginU.getId()));
 		if(DUBtilsString.isNotNullandEmpety(updateTitle)&&DUBtilsString.isNotNullandEmpety(updateContent)) {
 			message.setId(messageId);
 			message.setTitle(updateTitle);
 			message.setContent(updateContent);
 			message.setCreateDateTime(new Date());
-			message.setUserId(lgoinU.getId());
+			message.setUserId(loginU.getId());
 			messageDAO.update(message);
 			session.setAttribute("updateTitle", updateTitle);
 			session.setAttribute("updateContent", updateContent);
 			response.sendRedirect(request.getContextPath()+"/index");
 		}
 	}
-	//实现删除留言的功能
+	//实现用户删除留言的功能
 	private void deleteMessage(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
-		String content=(messageDAO.get(GetId.getMessageId(lgoinU.getId()))).getContent();
-		messageDAO.delete(GetId.getMessageId(lgoinU.getId()));
+		messageDAO.delete(GetId.getMessageId(loginU.getId()));
 		response.sendRedirect(request.getContextPath()+"/index");
 	}
 	//增加留言
@@ -83,7 +95,7 @@ public class MessageServlet extends HttpServlet {
 			message.setTitle(title);
 			message.setContent(content);
 			message.setCreateDateTime(new Date());
-			message.setUserId(lgoinU.getId());
+			message.setUserId(loginU.getId());
 			messageDAO.add(message);
 			session.setAttribute("title", title);
 			session.setAttribute("content", content);

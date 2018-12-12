@@ -67,7 +67,7 @@
             </tr>
             <tr>
                 <td>内容：</td>
-                <td><textarea  rows="15" cols="100" id="content" name="content"></textarea></td>
+                <td><textarea  rows="15" cols="100" id="content" name="content" style=resize:none></textarea></td>
             </tr>
             <tr>
                 <td>作者：</td>

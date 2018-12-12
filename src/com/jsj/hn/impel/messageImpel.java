@@ -83,6 +83,9 @@ public class messageImpel extends BaseDAO implements Imessage {
 		try {
 			while(rs.next()) {
 				message.setId(rs.getInt("id"));
+				message.setTitle(rs.getString("title"));
+				message.setContent(rs.getString("content"));
+				message.setCreateDateTime(rs.getDate("createdatetime"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

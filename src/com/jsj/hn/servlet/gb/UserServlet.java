@@ -21,6 +21,7 @@ public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = -118660327338658366L;
 	private IuserDAO userDAO=new userImpel();
 	private User user=new User();
+	private String sessionCode;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +34,8 @@ public class UserServlet extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		HttpSession session=request.getSession();
 		User loginU=(User) session.getAttribute("loginUser");
-		
+		sessionCode=(String)session.getAttribute("ValidateCode");
+
 		String isUserCookie=request.getParameter("isUserCookie");
 
 		if(type.equals("login")) {
@@ -65,6 +67,7 @@ public class UserServlet extends HttpServlet {
 			}else {
 				user.setUserName(username);
 				user.setPassWord(password);
+				user.setRoleId(2);
 				userDAO.add(user);
 				RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");
 				rd.forward(request, response);
@@ -76,6 +79,7 @@ public class UserServlet extends HttpServlet {
 	private void login(HttpServletRequest request, HttpServletResponse response, String username, String password,
 			PrintWriter out, HttpSession session,String isUserCookie) throws ServletException, IOException {
 		if(DUBtilsString.isNotNullandEmpety(username) || DUBtilsString.isNotNullandEmpety(password)) {
+			String verifyCode=request.getParameter("verifyCode");
 			User u=userDAO.login(username, password);
 			if(u!=null) {
 				//判断是否记住登录状态
@@ -97,8 +101,15 @@ public class UserServlet extends HttpServlet {
 						}
 					}
 				}
-				session.setAttribute("loginUser", u);
-				response.sendRedirect(request.getContextPath()+"/index");
+				if(sessionCode.equals(verifyCode)) {
+					session.setAttribute("loginUser", u);
+					response.sendRedirect(request.getContextPath()+"/index");
+				}else {
+					request.setAttribute("validateCode", "请输入正确的验证码！");
+					RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");
+					rd.forward(request, response);
+				}
+				
 			}else {
 				request.setAttribute("loginname", "用户名或密码错误！");
 				RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");

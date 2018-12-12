@@ -19,6 +19,9 @@
 		}
 		return flag;
 	}
+	function changeValidateCode(){
+		document.getElementById("validatecode").src="ValidateCodeServlet?rand="+Math.random();
+	}
 	
 </script>
 </head>
@@ -38,7 +41,9 @@
 			}
 		}
 		User loginUser=(User)session.getAttribute("loginUser");
-		String loginname=(String)request.getAttribute("loginname");
+		String loginname=".";
+		loginname=(String)request.getAttribute("loginname");
+		String validateCode=(String)request.getAttribute("validateCode");
 	%>
 <body background="t0144f3791b24151a1.jpg">
 	<form id="form1" action="user?type=login" method="post" onsubmit="return check();">
@@ -51,6 +56,11 @@
 				<td><font size="3"><strong>密码:</strong></font></td>
 				<td><input type="password" id="password" name="password" value="<%=password%>"/></td>
 			</tr>
+			<tr>
+				<td><font size="3"><strong>请输入验证码: </strong></font></td>
+				<td><input type="text" name="verifyCode"/></td>
+				<td><img src="ValidateCodeServlet" id="validatecode" title="单击换一张" onclick="changeValidateCode()" /><a href="javascript:changeValidateCode();">看不清？</a></td>
+			</tr>
 			<tr align="center" >
 				<td colspan="2">
 					<input type="submit" value="登录"/>
@@ -58,9 +68,16 @@
 				</td>
 			</tr>
 		</table>
-		<% if(loginUser!=null) {%>
+		<%if(loginname==null){ %>
+			<%out.println(""); %>
+		<%} else{%>
 			<h5 align="center"><%=loginname %></h5>
-		<% } %>
+		<%} %>
+		<%if(validateCode==null){ %>
+			<%out.println(""); %>
+		<%} else{%>
+			<h5 align="center"><%=validateCode %></h5>
+		<%} %>
 	</form>	
 </body>
 </html>
