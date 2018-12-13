@@ -3,7 +3,7 @@
 <%@page import="com.jsj.hn.model.*"%>
 <%@ include file="/layout/head.jsp" %>
 
-<body background="60p58PICtXG_1024.jpg">
+<body background="index.jpg">
   	<div class="h">
   		 <%if(loginUser==null) {%>
     	<a href="login.jsp">登录</a>
@@ -47,13 +47,25 @@
                 <td>作者：</td>
                 <td><%=GetId.getMessageName(m.getUserId()) %></td>
             </tr>
+            <%if(loginUser!=null) {%>
+             	<%if(loginUser.getRoleId()==1) {%>
             <tr>
                 <td>操作：</td>
                 <td>
-                    <a href="message?type=deleteMessage">删除</a>
+                    <a href="message?type=deleteMessage&id=<%=m.getId() %>" onclick="return confirm('亲爱的管理员，您是否确定要删除该记录？');">删除</a>
+                </td>
+            </tr>
+            	<%} %>
+            	<%if(loginUser.getRoleId()==2 && loginUser.getId()==m.getUserId()) {%>
+            <tr>
+                <td>操作：</td>
+                <td>
+                    <a href="message?type=deleteMessage&id=<%=m.getId() %>" onclick="return confirm('尊敬的用户，您是否确定要删除该记录？');">删除</a>
                     <a href="updateMessage.jsp">编辑</a>
                 </td>
             </tr>
+            	<%} %>
+            <%} %>
         </table> 
         <%} %>      
     </div>

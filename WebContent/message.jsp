@@ -1,6 +1,6 @@
-<%@page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" errorPage="/error.jsp"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.jsj.hn.model.*"%>
 <!DOCTYPE html>
 <html>

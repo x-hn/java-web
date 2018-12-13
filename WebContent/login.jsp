@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" errorPage="/error.jsp"%>
 <%@page import="com.jsj.hn.model.*"%>
 <!DOCTYPE html>
 <html>
@@ -45,7 +45,7 @@
 		loginname=(String)request.getAttribute("loginname");
 		String validateCode=(String)request.getAttribute("validateCode");
 	%>
-<body background="t0144f3791b24151a1.jpg">
+<body background="login.jpg">
 	<form id="form1" action="user?type=login" method="post" onsubmit="return check();">
 		<table align="center" border="1">
 			<tr>

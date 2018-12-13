@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" errorPage="/error.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +34,7 @@
 	<%
 		String regInfo=(String)request.getAttribute("regInfo");
 	%>
-<body background="17942401_101320663138_2.jpg">
+<body background="resgiter.jpg">
 	<form action="user?type=resgiter" method="post" onsubmit="return check();">
 		<table align="center" border="1">
 			<tr>

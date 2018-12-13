@@ -44,18 +44,7 @@ public class MessageServlet extends HttpServlet {
 			addMessage(request, response,session);
 		}
 		if(type.equals("deleteMessage")) {
-
-			if(loginU.getRoleId()==1) {
-				List<Message> messageIdList=messageDAO.getAll();
-				for(Message i:messageIdList) {
-					if(GetId.getMessageName(i.getUserId()).equals("")) {
-						messageDAO.delete(GetId.getMessageId(i.getUserId()));
-						response.sendRedirect(request.getContextPath()+"/index");
-					}
-				}
-			}else if(loginU.getRoleId()==2) {
-				deleteMessage(request, response, session);
-			}
+			deleteMessage(request, response, session);
 		}
 		if(type.equals("updateMessage")) {
 			updateMessage(request, response, session, updateTitle, updateContent);
@@ -82,7 +71,8 @@ public class MessageServlet extends HttpServlet {
 	//实现用户删除留言的功能
 	private void deleteMessage(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws ServletException, IOException {
-		messageDAO.delete(GetId.getMessageId(loginU.getId()));
+		String id=request.getParameter("id");
+		messageDAO.delete(Integer.parseInt(id));
 		response.sendRedirect(request.getContextPath()+"/index");
 	}
 	//增加留言
