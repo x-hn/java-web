@@ -17,7 +17,7 @@ public class messageImpel extends BaseDAO implements Imessage {
 	}
 
 	@Override
-	public int delete(int id) {
+	public int delete(Integer id) {
 		String sql="delete from message where id="+id;
 		Object[] obj=new Object[] {};
 		return this.updateBySql(sql, obj);
@@ -31,7 +31,7 @@ public class messageImpel extends BaseDAO implements Imessage {
 	}
 
 	@Override
-	public Message get(int id) {
+	public Message get(Integer id) {
 		Message message=new Message();
 		String sql="select * from message where id="+id;
 		Object[] obj=new Object[] {};
@@ -75,7 +75,7 @@ public class messageImpel extends BaseDAO implements Imessage {
 	}
 
 	@Override
-	public Message messageId(int userId) {
+	public Message messageId(Integer userId) {
 		Message message=new Message();
 		String sql="select * from message where userid=?";
 		Object[] obj=new Object[] {userId};

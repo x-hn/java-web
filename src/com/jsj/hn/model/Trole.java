@@ -1,12 +1,12 @@
 package com.jsj.hn.model;
 
 public class Trole {
-	private int id;
+	private Integer id;
 	private String roleName;
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getRoleName() {

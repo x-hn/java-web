@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="/error.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" ></c:set>
 <%@page import="com.jsj.hn.model.*"%>
 <!DOCTYPE html>
 <html>
@@ -40,13 +42,9 @@
 				}
 			}
 		}
-		User loginUser=(User)session.getAttribute("loginUser");
-		String loginname=".";
-		loginname=(String)request.getAttribute("loginname");
-		String validateCode=(String)request.getAttribute("validateCode");
 	%>
 <body background="login.jpg">
-	<form id="form1" action="user?type=login" method="post" onsubmit="return check();">
+	<form id="form1" action="${ctx}/user?type=login" method="post" onsubmit="return check();">
 		<table align="center" border="1">
 			<tr>
 				<td><font size="3"><strong>用户名:</strong></font></td>
@@ -59,7 +57,7 @@
 			<tr>
 				<td><font size="3"><strong>请输入验证码: </strong></font></td>
 				<td><input type="text" name="verifyCode"/></td>
-				<td><img src="ValidateCodeServlet" id="validatecode" title="单击换一张" onclick="changeValidateCode()" /><a href="javascript:changeValidateCode();">看不清？</a></td>
+				<td><img src="${ctx}/ValidateCodeServlet" id="validatecode" title="单击换一张" onclick="changeValidateCode()" /><a href="javascript:changeValidateCode();">看不清？</a></td>
 			</tr>
 			<tr align="center" >
 				<td colspan="2">
@@ -68,16 +66,12 @@
 				</td>
 			</tr>
 		</table>
-		<%if(loginname==null){ %>
-			<%out.println(""); %>
-		<%} else{%>
-			<h5 align="center"><%=loginname %></h5>
-		<%} %>
-		<%if(validateCode==null){ %>
-			<%out.println(""); %>
-		<%} else{%>
-			<h5 align="center"><%=validateCode %></h5>
-		<%} %>
+		<c:if test="${not empty requestScope.loginname}">
+			<h5 align="center">${requestScope.loginname}</h5>
+		</c:if>
+		<c:if test="${not empty requestScope.validateCode}">
+			<h5 align="center">${requestScope.validateCode}</h5>
+		</c:if>
 	</form>	
 </body>
 </html>

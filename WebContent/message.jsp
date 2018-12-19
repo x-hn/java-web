@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="/error.jsp"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.jsj.hn.model.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" ></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,13 +53,10 @@
 	}
 </script>
 </head>
-	<%
-		User loginUser=(User)session.getAttribute("loginUser");
-	%>
 	<h1 align="center">欢迎进入留言系统</h1>
 <body background="message.jpg">
 	<div>
-	<form action="message?type=addMessage" method="post" onsubmit="return check();">
+	<form action="${ctx}/message?type=addMessage" method="post" onsubmit="return check();">
 		<table>
             <tr>
                 <td width="60px">标题：</td>
@@ -71,7 +68,7 @@
             </tr>
             <tr>
                 <td>作者：</td>
-                <td><%=loginUser.getUserName()%></td>
+                <td>${sessionScope.loginUser.userName}</td>
             </tr>
             <tr align="center">
                 <td colspan="2"><input type="submit" value="提交留言"/></td>

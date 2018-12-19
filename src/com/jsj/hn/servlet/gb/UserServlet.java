@@ -22,22 +22,25 @@ public class UserServlet extends HttpServlet {
 	private IuserDAO userDAO=new userImpel();
 	private User user=new User();
 	private String sessionCode;
+	private User loginU;
+	private HttpSession session;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
+		
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
 		String type=request.getParameter("type");
-		PrintWriter out=response.getWriter();
-		HttpSession session=request.getSession();
-		User loginU=(User) session.getAttribute("loginUser");
+		String isUserCookie=request.getParameter("isUserCookie");
+		
+		session=request.getSession();
+		loginU=(User) session.getAttribute("loginUser");
 		sessionCode=(String)session.getAttribute("ValidateCode");
 
-		String isUserCookie=request.getParameter("isUserCookie");
-
+		PrintWriter out=response.getWriter();
 		if(type.equals("login")) {
 			login(request, response, username, password, out,session,isUserCookie);
 		}
@@ -74,7 +77,6 @@ public class UserServlet extends HttpServlet {
 			}
 		}
 	}
-
 	//登录
 	private void login(HttpServletRequest request, HttpServletResponse response, String username, String password,
 			PrintWriter out, HttpSession session,String isUserCookie) throws ServletException, IOException {

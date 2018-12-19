@@ -18,10 +18,11 @@ import com.jsj.hn.impel.troleImpel;
 import com.jsj.hn.impel.userImpel;
 import com.jsj.hn.model.Message;
 import com.jsj.hn.model.User;
-@WebServlet("/index")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/Index")
+public class IndexServlet2 extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private Imessage messageDAO=new messageImpel();
 	private IuserDAO userDAO=new userImpel();
 	private IroleName roleDAO=new troleImpel();
@@ -31,14 +32,11 @@ public class IndexServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		
-		List<Message> messageList=messageDAO.getAll();
-		for(Message m:messageList) {
-			if(m.getUserId()!=null) {
-				m.setUsername((userDAO.get(m.getUserId())).getUserName());
-			}
+		List<User> userList=userDAO.getAll();
+		for(User u:userList) {
+			u.setRolename((roleDAO.get(u.getRoleId())).getRoleName());
 		}
-		request.setAttribute("messageList", messageList);
+		request.setAttribute("userList", userList);
 		RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);
 	}

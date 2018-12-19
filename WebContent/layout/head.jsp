@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/error.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" ></c:set>
 <%@page import="java.util.Calendar"%>
 <%@page import="com.jsj.hn.model.*"%>
 <%@page import="com.jsj.hn.DUBtils.*"%>
@@ -33,14 +35,4 @@
             border:1px solid blue;
         }
     </style>
-	<% 
-		
-		User loginUser=(User)session.getAttribute("loginUser");
-		String title=(String)session.getAttribute("title");
-		String content=(String)session.getAttribute("content");
-		String time=(String)session.getAttribute("time");
-		String updateTitle=(String)session.getAttribute("updateTitle");
-		String updateContent=(String)session.getAttribute("updateContent");
-		GetId getid=new GetId();
-	%>
 </head>	

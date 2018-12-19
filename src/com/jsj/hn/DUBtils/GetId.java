@@ -11,9 +11,4 @@ public class GetId {
 		int id=(messageDAO.messageId(userId)).getId();
 		return id;
 	}
-	public static String getMessageName(int userid) {
-		IuserDAO userDAO=new userImpel();
-		String name=(userDAO.get(userid)).getUserName();
-		return name;
-	}
 }

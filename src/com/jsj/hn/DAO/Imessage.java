@@ -14,7 +14,7 @@ public interface Imessage {
 	/*
 	 * 删除信息
 	 */
-	public abstract int delete(int id);
+	public abstract int delete(Integer id);
 	/*
 	 * 修改信息
 	 */
@@ -22,7 +22,7 @@ public interface Imessage {
 	/*
 	 * 查询单条数据
 	 */
-	public abstract Message get(int id);
+	public abstract Message get(Integer id);
 	/*
 	 * 查询表上所有信息
 	 */
@@ -30,5 +30,5 @@ public interface Imessage {
 	/*
 	 * 查询单个信息
 	 */
-	public Message messageId(int userId);
+	public Message messageId(Integer userId);
 }

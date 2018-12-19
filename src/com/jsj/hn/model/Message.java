@@ -3,16 +3,20 @@ package com.jsj.hn.model;
 import java.util.Date;
 
 public class Message {
-	private int id;
+	private Integer id;
 	private String title;
 	private String content;
 	private Date createDateTime;
-	private int userId;
-	private int pid;
-	public int getId() {
+	private Integer userId;
+	private Integer pid;
+	
+	//创建一个没有与数据库有联系的username
+	private String username;
+	
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getTitle() {
@@ -33,17 +37,23 @@ public class Message {
 	public void setCreateDateTime(Date createDateTime) {
 		this.createDateTime = createDateTime;
 	}
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	public int getPid() {
+	public Integer getPid() {
 		return pid;
 	}
-	public void setPid(int pid) {
+	public void setPid(Integer pid) {
 		this.pid = pid;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 }

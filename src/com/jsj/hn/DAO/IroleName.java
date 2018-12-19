@@ -14,7 +14,7 @@ public interface IroleName {
 	/*
 	 * 删除信息
 	 */
-	public abstract int delete(int id);
+	public abstract int delete(Integer id);
 	/*
 	 * 修改信息
 	 */
@@ -22,7 +22,7 @@ public interface IroleName {
 	/*
 	 * 查询单条数据
 	 */
-	public abstract Trole get(int id);
+	public abstract Trole get(Integer id);
 	/*
 	 * 查询表上所有信息
 	 */

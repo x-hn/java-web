@@ -28,16 +28,20 @@ public class MessageServlet extends HttpServlet {
 	private Message message=new Message();
 	private User loginU;
 	private SimpleDateFormat sdf;
+	private HttpSession session;
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		HttpSession session=request.getSession();
+		
+		session=request.getSession();
 		loginU=(User) session.getAttribute("loginUser");
 		String type=request.getParameter("type");
 		String updateTitle=request.getParameter("updateTitle");
 		String updateContent=request.getParameter("updateContent");
 		sdf=new SimpleDateFormat("yyyy"+"年"+"MM"+"月"+"dd"+"日");
+		
 		PrintWriter out=response.getWriter();
 
 		if(type.equals("addMessage")) {
@@ -49,8 +53,6 @@ public class MessageServlet extends HttpServlet {
 		if(type.equals("updateMessage")) {
 			updateMessage(request, response, session, updateTitle, updateContent);
 		}
-
-
 	}
 	//编辑已存在留言
 	private void updateMessage(HttpServletRequest request, HttpServletResponse response, HttpSession session,

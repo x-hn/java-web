@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="/error.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" ></c:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +33,8 @@
 </script>
 </head>
 	<h1 align="center">欢迎来到注册界面</h1>
-	<%
-		String regInfo=(String)request.getAttribute("regInfo");
-	%>
 <body background="resgiter.jpg">
-	<form action="user?type=resgiter" method="post" onsubmit="return check();">
+	<form action="${ctx}/user?type=resgiter" method="post" onsubmit="return check();">
 		<table align="center" border="1">
 			<tr>
 				<td><font size="3" color="brown"><strong>用户名:</strong></font></td>
@@ -53,9 +52,9 @@
 				<td colspan="2"><input type="submit" value="注册"/></td>
 			</tr>
 		</table>
-		<% if(regInfo!=null) { %>
-		<h5 align="center"><%=regInfo %></h5>
-		<%} %>
+		<c:if test="${not empty requestScope.regInfo}">
+			<h5 align="center">${requestScope.regInfo}</h5>
+		</c:if>
 		<h5 align="center" id="Info"></h5>
 	</form>
 </body>

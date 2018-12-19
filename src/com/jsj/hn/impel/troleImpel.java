@@ -18,7 +18,7 @@ public class troleImpel extends BaseDAO implements IroleName {
 	}
 
 	@Override
-	public int delete(int id) {
+	public int delete(Integer id) {
 		String sql="delete from trole where id="+id;
 		Object[] obj=new Object[] {};
 		return this.updateBySql(sql, obj);
@@ -32,7 +32,7 @@ public class troleImpel extends BaseDAO implements IroleName {
 	}
 
 	@Override
-	public Trole get(int id) {
+	public Trole get(Integer id) {
 		Trole role=new Trole();
 		String sql="select * from trole where id="+id;
 		Object[] obj=new Object[] {};

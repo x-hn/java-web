@@ -17,7 +17,7 @@ public class userImpel extends BaseDAO implements IuserDAO {
 	}
 
 	@Override
-	public int delete(int id) {
+	public int delete(Integer id) {
 		String sql="delete from tuser where id="+id;
 		Object[] obj=new Object[] {};
 		return this.updateBySql(sql, obj);
@@ -31,7 +31,7 @@ public class userImpel extends BaseDAO implements IuserDAO {
 	}
 
 	@Override
-	public User get(int id) {
+	public User get(Integer id) {
 		User user=new User();
 		String sql="select * from tuser where id="+id;
 		Object[] obj=new Object[] {};

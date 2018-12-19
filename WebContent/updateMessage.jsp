@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" errorPage="/error.jsp"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" ></c:set>
 <%@page import="com.jsj.hn.model.*"%>
 <%@page import="com.jsj.hn.DAO.*"%>
 <%@page import="com.jsj.hn.impel.*"%>
@@ -51,7 +53,7 @@
 	%>
 <body  background="message.jpg">
 	<div>
-	<form action="message?type=updateMessage" method="post">
+	<form action="${ctx}/message?type=updateMessage" method="post">
 		<table>
 			<tr>
 				<td>标题: </td>
@@ -67,7 +69,7 @@
 			</tr>
 			<tr>
 				<td>作者: </td>
-				<td><%=loginUser.getUserName() %></td>
+				<td>${sessionScope.loginUser.userName}</td>
 			</tr>
 			<tr align="center">
 				<td colspan="2"><input type="submit" value="保存" /></td>
