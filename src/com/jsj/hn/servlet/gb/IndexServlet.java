@@ -38,6 +38,33 @@ public class IndexServlet extends HttpServlet {
 				m.setUsername((userDAO.get(m.getUserId())).getUserName());
 			}
 		}
+		//当前页
+		String p=request.getParameter("page");
+		int page;
+		try {
+			page=Integer.valueOf(p);
+		} catch (Exception e) {
+			page=1;
+		}
+		//总记录数
+		int totalRecords=messageList.size();
+		//每页页数
+		int pageSizes=3;
+		//总页数
+		int totalPages=totalRecords % pageSizes ==0?totalRecords / pageSizes:totalRecords / pageSizes +1;
+		//开始索引
+		int beginIndex=(page-1)*pageSizes;
+		//结束索引
+		int endIndex=beginIndex+pageSizes;
+		if(endIndex>totalRecords) {
+			endIndex=totalRecords;
+		}
+		request.setAttribute("page", page);
+		request.setAttribute("totalRecords", totalRecords);
+		request.setAttribute("totalPages", totalPages);
+		request.setAttribute("beginIndex", beginIndex);
+		request.setAttribute("endIndex", endIndex);
+		request.setAttribute("pageSizes", pageSizes);
 		request.setAttribute("messageList", messageList);
 		RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);

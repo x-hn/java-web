@@ -31,9 +31,6 @@
         td{
             border:1px solid blue;
         }
-        style{
-        	resize:none;
-        }
 		textarea{
 		    width:600px;
 		    max-width:750px;
@@ -44,32 +41,18 @@
 </style>
 </head>
 	<h2 align="center">编辑留言</h2>
-	<%
-		Imessage messageDAO=new messageImpel();
-		User loginUser=(User)session.getAttribute("loginUser");	
-		String title=(messageDAO.messageId(loginUser.getId())).getTitle();
-		String content=(messageDAO.messageId(loginUser.getId())).getContent();
-		Date time=(messageDAO.messageId(loginUser.getId())).getCreateDateTime();
-	%>
 <body  background="message.jpg">
 	<div>
 	<form action="${ctx}/message?type=updateMessage" method="post">
 		<table>
+			<input type="hidden" id="id" name="id" value="${message.id}" />
 			<tr>
 				<td>标题: </td>
-				<td><textarea row="5" cols="20" name="updateTitle" style=resize:none><%=title %></textarea></td>
+				<td><input  name="title" value="${message.title}"></td>
 			</tr>
 			<tr>
 				<td>内容: </td>
-				<td><textarea name="updateContent" style=resize:none><%=content %></textarea></td>
-			</tr>
-			<tr>
-				<td>日期: </td>
-				<td><%=time %></td>
-			</tr>
-			<tr>
-				<td>作者: </td>
-				<td>${sessionScope.loginUser.userName}</td>
+				<td><textarea name="content" style=resize:none>${message.content}</textarea></td>
 			</tr>
 			<tr align="center">
 				<td colspan="2"><input type="submit" value="保存" /></td>

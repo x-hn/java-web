@@ -13,6 +13,17 @@ public class Message {
 	//创建一个没有与数据库有联系的username
 	private String username;
 	
+	public Message() {
+		super();
+	}
+	
+	public Message(Integer id, String title, String content) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.content = content;
+	}
+
 	public Integer getId() {
 		return id;
 	}

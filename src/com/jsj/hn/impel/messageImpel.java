@@ -29,6 +29,14 @@ public class messageImpel extends BaseDAO implements Imessage {
 		Object[] obj=new Object[] {message.getTitle(),message.getContent(),message.getCreateDateTime(),message.getUserId(),message.getPid(),message.getId()};
 		return this.updateBySql(sql, obj);
 	}
+	
+	@Override
+	public int updateTitleAndContent(Message message) {
+		String sql="update message set title=?,content=?where id=?";
+		Object[] obj=new Object[] {message.getTitle(),message.getContent(),message.getId()};
+		return this.updateBySql(sql, obj);
+	}
+
 
 	@Override
 	public Message get(Integer id) {
@@ -94,7 +102,4 @@ public class messageImpel extends BaseDAO implements Imessage {
 		}
 		return message;
 	}
-
-	
-
 }

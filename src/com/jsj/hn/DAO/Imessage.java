@@ -20,6 +20,10 @@ public interface Imessage {
 	 */
 	public abstract int update(Message message);
 	/*
+	 * 修改标题和留言
+	 */
+	public abstract int updateTitleAndContent(Message message);
+	/*
 	 * 查询单条数据
 	 */
 	public abstract Message get(Integer id);
