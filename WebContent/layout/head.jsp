@@ -53,7 +53,9 @@
         		
      			<p>
      				<a href="${ctx}/message.jsp" >我要留言</a>
-     				<a href="${ctx}/user?type=getAll&page=1" >用户管理</a>	
+     				<c:if test="${sessionScope.loginUser.roleId eq 1}">
+     					<a href="${ctx}/user?type=getAll&page=1" >用户管理</a>	
+     				</c:if>
      			</p>
         	</c:otherwise>
         </c:choose>

@@ -53,47 +53,65 @@ public class UserServlet extends HttpServlet {
 		}else if(type.equals("cancel")) {
 			cancel(request, response, username, session);		
 		}else if(type.equals("getAll")) {
-			//当前页
-			String p=request.getParameter("page");
-			int page;
-			try {
-				page=Integer.valueOf(p);
-			} catch (Exception e) {
-				page=1;
-			}
-			//每页页数
-			int pageSizes=3;
-			//开始索引
-			int beginIndex=(page-1)*pageSizes;
-			
-			List<User> userList=userDAO.getAll(page,pageSizes);
-			
-			for(User u:userList) {
-				if(u.getRoleId()!=null) {
-					u.setRolename((roleDAO.get(u.getRoleId())).getRoleName());
-				}
-			}
-			String sql="SELECT COUNT(*) FROM tuser where 1=1";
-			Object[] obj=new Object[] {};
-			//总记录数
-			int totalRecords=userDAO.count(sql,obj);
-			//总页数
-			int totalPages=totalRecords % pageSizes ==0?totalRecords / pageSizes:totalRecords / pageSizes +1;
-			//结束索引
-			int endIndex=beginIndex+pageSizes;
-			if(endIndex>totalRecords) {
-				endIndex=totalRecords;
-			}
-			request.setAttribute("page", page);
-			request.setAttribute("totalRecords", totalRecords);
-			request.setAttribute("totalPages", totalPages);
-			request.setAttribute("beginIndex", beginIndex);
-			request.setAttribute("endIndex", endIndex);
-			request.setAttribute("pageSizes", pageSizes);
-			request.setAttribute("userList", userList);
-			RequestDispatcher rd=request.getRequestDispatcher("/admin/user/users.jsp");
+			getAll(request, response);
+		}else if(type.equals("edit")) {
+			String id=request.getParameter("id");
+			User u=userDAO.get(Integer.parseInt(id));
+			request.setAttribute("user", u);
+			RequestDispatcher rd=request.getRequestDispatcher("admin/user/editUser.jsp");
 			rd.forward(request, response);
+		}else if(type.equals("get")) {
+			String id=request.getParameter("id");
+			user.setId(Integer.parseInt(id));
+			user.setUserName(username);
+			user.setPassWord(password);
+			user.setRoleId(2);
+			userDAO.update(user);
+			response.sendRedirect(request.getContextPath()+"/user?type=getAll");
 		}
+	}
+	//用户管理
+	private void getAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//当前页
+		String p=request.getParameter("page");
+		int page;
+		try {
+			page=Integer.valueOf(p);
+		} catch (Exception e) {
+			page=1;
+		}
+		//每页页数
+		int pageSizes=3;
+		//开始索引
+		int beginIndex=(page-1)*pageSizes;
+		
+		List<User> userList=userDAO.getAll(page,pageSizes);
+		
+		for(User u:userList) {
+			if(u.getRoleId()!=null) {
+				u.setRolename((roleDAO.get(u.getRoleId())).getRoleName());
+			}
+		}
+		String sql="SELECT COUNT(*) FROM tuser where 1=1";
+		Object[] obj=new Object[] {};
+		//总记录数
+		int totalRecords=userDAO.count(sql,obj);
+		//总页数
+		int totalPages=totalRecords % pageSizes ==0?totalRecords / pageSizes:totalRecords / pageSizes +1;
+		//结束索引
+		int endIndex=beginIndex+pageSizes;
+		if(endIndex>totalRecords) {
+			endIndex=totalRecords;
+		}
+		request.setAttribute("page", page);
+		request.setAttribute("totalRecords", totalRecords);
+		request.setAttribute("totalPages", totalPages);
+		request.setAttribute("beginIndex", beginIndex);
+		request.setAttribute("endIndex", endIndex);
+		request.setAttribute("pageSizes", pageSizes);
+		request.setAttribute("userList", userList);
+		RequestDispatcher rd=request.getRequestDispatcher("/admin/user/users.jsp");
+		rd.forward(request, response);
 	}
 	//注销
 	private void cancel(HttpServletRequest request, HttpServletResponse response, String username, HttpSession session)

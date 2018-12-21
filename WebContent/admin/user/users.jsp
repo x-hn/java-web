@@ -50,7 +50,7 @@
 				<td>${obj.userName}</td>
 				<td>${obj.rolename}</td>
 				<td>
-					<a href="#">编辑</a>
+					<a href="${ctx}/user?type=edit&id=${obj.id}">编辑</a>
 					<a href="#">删除</a>
 				</td>
 			</tr>

@@ -71,7 +71,7 @@ public class IndexServlet extends HttpServlet {
 		request.setAttribute("endIndex", endIndex);
 		request.setAttribute("pageSizes", pageSizes);
 		request.setAttribute("messageList", messageList);
-		RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+		RequestDispatcher rd=request.getRequestDispatcher("/index.jsp");
 		rd.forward(request, response);
 	}
 	@Override
