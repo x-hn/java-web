@@ -55,6 +55,8 @@ public class messageImpel extends BaseDAO implements Imessage {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			this.close(conn, st, rs);
 		}
 		return message;
 	}
@@ -78,28 +80,52 @@ public class messageImpel extends BaseDAO implements Imessage {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			this.close(conn, st, rs);
 		}
 		return list;
 	}
 
+
 	@Override
-	public Message messageId(Integer userId) {
-		Message message=new Message();
-		String sql="select * from message where userid=?";
-		Object[] obj=new Object[] {userId};
+	public List<Message> getAll(int page, int pageSizes) {
+		List<Message> list=new ArrayList<>();
+		String sql="select * from message limit ?,?";
+		int beginIndex=(page-1)*pageSizes;
+		Object[] obj=new Object[] {beginIndex,pageSizes};
 		this.queryBySql(sql, obj);
 		try {
 			while(rs.next()) {
+				Message message=new Message();
 				message.setId(rs.getInt("id"));
 				message.setTitle(rs.getString("title"));
 				message.setContent(rs.getString("content"));
-				message.setCreateDateTime(rs.getDate("createdatetime"));
+				message.setCreateDateTime(rs.getDate("createDateTime"));
+				message.setUserId(rs.getInt("userId"));
+				message.setPid(rs.getInt("pid"));
+				list.add(message);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			this.close(conn, st, rs);
 		}
-		return message;
+		return list;
+	}
+
+	@Override
+	public int count(String sql,Object[] obj) {
+		this.queryBySql(sql, obj);
+		int countTest=-1;
+		try {
+			while(rs.next()) {
+				countTest=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			this.close(conn, st, rs);
+		}
+		return countTest;
 	}
 }

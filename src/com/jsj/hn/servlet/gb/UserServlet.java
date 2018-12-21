@@ -2,6 +2,7 @@ package com.jsj.hn.servlet.gb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,14 +13,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.jsj.hn.DAO.IroleName;
 import com.jsj.hn.DAO.IuserDAO;
 import com.jsj.hn.DUBtils.DUBtilsString;
+import com.jsj.hn.impel.troleImpel;
 import com.jsj.hn.impel.userImpel;
+import com.jsj.hn.model.Message;
 import com.jsj.hn.model.User;
 @WebServlet("/user")
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = -118660327338658366L;
 	private IuserDAO userDAO=new userImpel();
+	private IroleName roleDAO=new troleImpel();
 	private User user=new User();
 	private String sessionCode;
 	private User loginU;
@@ -43,12 +48,51 @@ public class UserServlet extends HttpServlet {
 		PrintWriter out=response.getWriter();
 		if(type.equals("login")) {
 			login(request, response, username, password, out,session,isUserCookie);
-		}
-		if(type.equals("resgiter")) {
+		}else if(type.equals("resgiter")) {
 			resgiter(request, response, username, password,out);
-		}
-		if(type.equals("cancel")) {
+		}else if(type.equals("cancel")) {
 			cancel(request, response, username, session);		
+		}else if(type.equals("getAll")) {
+			//当前页
+			String p=request.getParameter("page");
+			int page;
+			try {
+				page=Integer.valueOf(p);
+			} catch (Exception e) {
+				page=1;
+			}
+			//每页页数
+			int pageSizes=3;
+			//开始索引
+			int beginIndex=(page-1)*pageSizes;
+			
+			List<User> userList=userDAO.getAll(page,pageSizes);
+			
+			for(User u:userList) {
+				if(u.getRoleId()!=null) {
+					u.setRolename((roleDAO.get(u.getRoleId())).getRoleName());
+				}
+			}
+			String sql="SELECT COUNT(*) FROM tuser where 1=1";
+			Object[] obj=new Object[] {};
+			//总记录数
+			int totalRecords=userDAO.count(sql,obj);
+			//总页数
+			int totalPages=totalRecords % pageSizes ==0?totalRecords / pageSizes:totalRecords / pageSizes +1;
+			//结束索引
+			int endIndex=beginIndex+pageSizes;
+			if(endIndex>totalRecords) {
+				endIndex=totalRecords;
+			}
+			request.setAttribute("page", page);
+			request.setAttribute("totalRecords", totalRecords);
+			request.setAttribute("totalPages", totalPages);
+			request.setAttribute("beginIndex", beginIndex);
+			request.setAttribute("endIndex", endIndex);
+			request.setAttribute("pageSizes", pageSizes);
+			request.setAttribute("userList", userList);
+			RequestDispatcher rd=request.getRequestDispatcher("/admin/user/users.jsp");
+			rd.forward(request, response);
 		}
 	}
 	//注销

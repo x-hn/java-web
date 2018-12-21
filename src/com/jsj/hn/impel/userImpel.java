@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jsj.hn.DAO.IuserDAO;
+import com.jsj.hn.model.Message;
 import com.jsj.hn.model.User;
 
 public class userImpel extends BaseDAO implements IuserDAO {
@@ -115,24 +116,45 @@ public class userImpel extends BaseDAO implements IuserDAO {
 		return user==null?false:true;
 	}
 
+	
+
 	@Override
-	public User Test(String username) {
-		User user=new User();
-		String sql="select * from tuser where username=?";
-		Object[] obj=new Object[] {username};
+	public List<User> getAll(int page, int pageSizes) {
+		List<User> list=new ArrayList<>();
+		String sql="select * from tuser limit ?,?";
+		int beginIndex=(page-1)*pageSizes;
+		Object[] obj=new Object[] {beginIndex,pageSizes};
 		this.queryBySql(sql, obj);
 		try {
 			while(rs.next()) {
+				User user=new User();
 				user.setId(rs.getInt("id"));
 				user.setUserName(rs.getString("username"));
 				user.setPassWord(rs.getString("password"));
 				user.setRoleId(rs.getInt("roleid"));
+				list.add(user);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			this.close(conn, st, rs);
 		}
-		return user;
+		return list;
+	}
+	
+	@Override
+	public int count(String sql,Object[] obj) {
+		this.queryBySql(sql, obj);
+		int countTest=-1;
+		try {
+			while(rs.next()) {
+				countTest=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			this.close(conn, st, rs);
+		}
+		return countTest;
 	}
 }

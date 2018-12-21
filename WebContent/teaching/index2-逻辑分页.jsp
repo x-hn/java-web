@@ -7,9 +7,6 @@
 		text-decoration: none;
 	}
 </style>
-<%
-	Clock clock=new Clock();
-%>
 <body background="index.jpg">
 		<c:set var="page" value="${page}"></c:set>
 		<c:set var="totalRecords" value="${totalRecords}"></c:set>
@@ -18,9 +15,10 @@
 		<c:set var="endIndex" value="${endIndex}"></c:set>
 		<c:set var="pageSizes" value="${pageSizes}"></c:set>
 		<c:set var="messageList" value="${messageList}"></c:set>
+		<c:set var="CurrectmessageList" value="${messageList.subList(beginIndex,endIndex)}"></c:set>
     <div>
         <h3>留言列表</h3>
-        <c:forEach var="list" items="${messageList}" >
+        <c:forEach var="list" items="${CurrectmessageList}" >
         <table>
             <tr>
                 <td width="60px">标题：</td>
@@ -83,9 +81,6 @@
     	<form action="${ctx}/index">
     	<input type="text" name="page" /><input type="submit" value="查找" />
     	</form>
-    </div>
-    <div>
-    	<label></label>
     </div>
 </body>
 </html>

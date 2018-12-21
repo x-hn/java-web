@@ -32,12 +32,6 @@ public class IndexServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		List<Message> messageList=messageDAO.getAll();
-		for(Message m:messageList) {
-			if(m.getUserId()!=null) {
-				m.setUsername((userDAO.get(m.getUserId())).getUserName());
-			}
-		}
 		//当前页
 		String p=request.getParameter("page");
 		int page;
@@ -46,14 +40,25 @@ public class IndexServlet extends HttpServlet {
 		} catch (Exception e) {
 			page=1;
 		}
-		//总记录数
-		int totalRecords=messageList.size();
 		//每页页数
 		int pageSizes=3;
-		//总页数
-		int totalPages=totalRecords % pageSizes ==0?totalRecords / pageSizes:totalRecords / pageSizes +1;
 		//开始索引
 		int beginIndex=(page-1)*pageSizes;
+		
+		List<Message> messageList=messageDAO.getAll(page,pageSizes);
+		
+		//List<Message> messageList=messageDAO.getAll(beginIndex,);
+		for(Message m:messageList) {
+			if(m.getUserId()!=null) {
+				m.setUsername((userDAO.get(m.getUserId())).getUserName());
+			}
+		}
+		String sql="SELECT COUNT(*) FROM message where 1=1";
+		Object[] obj=new Object[] {};
+		//总记录数
+		int totalRecords=messageDAO.count(sql,obj);
+		//总页数
+		int totalPages=totalRecords % pageSizes ==0?totalRecords / pageSizes:totalRecords / pageSizes +1;
 		//结束索引
 		int endIndex=beginIndex+pageSizes;
 		if(endIndex>totalRecords) {

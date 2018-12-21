@@ -2,6 +2,7 @@ package com.jsj.hn.DAO;
 
 import java.util.List;
 
+import com.jsj.hn.model.Message;
 import com.jsj.hn.model.User;
 
 public interface IuserDAO {
@@ -37,5 +38,8 @@ public interface IuserDAO {
 	/*
 	 * 获取要注销的用户id
 	 */
-	public User Test(String usernaem);
+
+	public abstract List<User> getAll(int page, int pageSizes);
+
+	public abstract int count(String sql, Object[] obj);
 }

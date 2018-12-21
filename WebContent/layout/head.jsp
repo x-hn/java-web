@@ -50,7 +50,11 @@
        		  <% }%>
         		${sessionScope.loginUser.userName}</span>！
         		<a href="${ctx}/user?type=cancel" >注销账户</a>
-     			<p><a href="${ctx}/message.jsp" >我要留言</a></p>
+        		
+     			<p>
+     				<a href="${ctx}/message.jsp" >我要留言</a>
+     				<a href="${ctx}/user?type=getAll&page=1" >用户管理</a>	
+     			</p>
         	</c:otherwise>
         </c:choose>
     </div> 
