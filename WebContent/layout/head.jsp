@@ -2,8 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" ></c:set>
 <%@page import="java.util.*"%>
-<%@page import="com.jsj.hn.model.*"%>
-<%@page import="com.jsj.hn.DUBtils.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +52,10 @@
      			<p>
      				<a href="${ctx}/message.jsp" >我要留言</a>
      				<c:if test="${sessionScope.loginUser.roleId eq 1}">
-     					<a href="${ctx}/user?type=getAll&page=1" >用户管理</a>	
+     					<p>
+     						<a href="${ctx}/user?type=getAll&page=1" >用户管理</a>	
+     						<a href="${ctx}/role?type=getAll&page=1" >角色管理</a>
+     					</p>
      				</c:if>
      			</p>
         	</c:otherwise>

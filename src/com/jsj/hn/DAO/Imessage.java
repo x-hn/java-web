@@ -35,8 +35,5 @@ public interface Imessage {
 	 * 根据起始位置和查询数量查询信息
 	 */
 	public abstract List<Message> getAll(int page, int pageSizes);
-	/*
-	 * 查询数据数量
-	 */
-	public abstract int count(String sql,Object[] obj);
+
 }

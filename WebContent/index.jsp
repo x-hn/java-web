@@ -7,9 +7,6 @@
 		text-decoration: none;
 	}
 </style>
-<%
-	Clock clock=new Clock();
-%>
 <body background="index.jpg">
 		<c:set var="page" value="${page}"></c:set>
 		<c:set var="totalRecords" value="${totalRecords}"></c:set>
@@ -83,9 +80,6 @@
     	<form action="${ctx}/index">
     	<input type="text" name="page" /><input type="submit" value="查找" />
     	</form>
-    </div>
-    <div>
-    	<label></label>
     </div>
 </body>
 </html>

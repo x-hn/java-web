@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.jsj.hn.DAO.IroleName;
 import com.jsj.hn.DAO.IuserDAO;
 import com.jsj.hn.DUBtils.DUBtilsString;
+import com.jsj.hn.impel.BaseDAO;
 import com.jsj.hn.impel.troleImpel;
 import com.jsj.hn.impel.userImpel;
 import com.jsj.hn.model.Message;
@@ -25,6 +26,7 @@ public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = -118660327338658366L;
 	private IuserDAO userDAO=new userImpel();
 	private IroleName roleDAO=new troleImpel();
+	private BaseDAO baseDAO=new BaseDAO();
 	private User user=new User();
 	private String sessionCode;
 	private User loginU;
@@ -40,6 +42,7 @@ public class UserServlet extends HttpServlet {
 		String password=request.getParameter("password");
 		String type=request.getParameter("type");
 		String isUserCookie=request.getParameter("isUserCookie");
+		String isUser=request.getParameter("isUser");
 		
 		session=request.getSession();
 		loginU=(User) session.getAttribute("loginUser");
@@ -55,20 +58,57 @@ public class UserServlet extends HttpServlet {
 		}else if(type.equals("getAll")) {
 			getAll(request, response);
 		}else if(type.equals("edit")) {
-			String id=request.getParameter("id");
-			User u=userDAO.get(Integer.parseInt(id));
-			request.setAttribute("user", u);
-			RequestDispatcher rd=request.getRequestDispatcher("admin/user/editUser.jsp");
-			rd.forward(request, response);
+			edit(request, response, username, password);
 		}else if(type.equals("get")) {
-			String id=request.getParameter("id");
-			user.setId(Integer.parseInt(id));
-			user.setUserName(username);
-			user.setPassWord(password);
-			user.setRoleId(2);
-			userDAO.update(user);
-			response.sendRedirect(request.getContextPath()+"/user?type=getAll");
+			get(request, response);
+		}else if(type.equals("addUser")) {
+			addUser(request, response, username, password);
+		}else if(type.equals("delete")) {
+			deleteUser(request, response);
 		}
+	}
+	//删除用户信息
+	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String id=request.getParameter("id");
+		userDAO.delete(Integer.parseInt(id));
+		response.sendRedirect(request.getContextPath()+"/user?type=getAll");
+	}
+	//增加用户信息
+	private void addUser(HttpServletRequest request, HttpServletResponse response, String username, String password)
+			throws ServletException, IOException {
+		String password1=request.getParameter("password1");
+		if(DUBtilsString.isNotNullandEmpety(username) && DUBtilsString.isNotNullandEmpety(password)&&DUBtilsString.isNotNullandEmpety(password1)&&password.equals(password1)) {
+			if(userDAO.repeat(username)) {
+				request.setAttribute("regInfo", "用户名已存在！！");
+				RequestDispatcher rd=request.getRequestDispatcher("/admin/user/addUser.jsp");
+				rd.forward(request, response);
+			}else {
+				user.setUserName(username);
+				user.setPassWord(password);
+				//user.setRoleId(2);
+				userDAO.addValueRole(user);
+				response.sendRedirect(request.getContextPath()+"/user?type=getAll");
+			}
+		}
+	}
+	//通过id编辑用户信息
+	private void edit(HttpServletRequest request, HttpServletResponse response, String username, String password)
+			throws IOException {
+		String id=request.getParameter("id");
+		user.setId(Integer.parseInt(id));
+		user.setUserName(username);
+		user.setPassWord(password);
+		//user.setRoleId(2);
+		userDAO.update(user);
+		response.sendRedirect(request.getContextPath()+"/user?type=getAll");
+	}
+	//通过获取此用户信息
+	private void get(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String id=request.getParameter("id");
+		User u=userDAO.get(Integer.parseInt(id));
+		request.setAttribute("user", u);
+		RequestDispatcher rd=request.getRequestDispatcher("admin/user/editUser.jsp");
+		rd.forward(request, response);
 	}
 	//用户管理
 	private void getAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -95,7 +135,7 @@ public class UserServlet extends HttpServlet {
 		String sql="SELECT COUNT(*) FROM tuser where 1=1";
 		Object[] obj=new Object[] {};
 		//总记录数
-		int totalRecords=userDAO.count(sql,obj);
+		int totalRecords=baseDAO.count(sql,obj);
 		//总页数
 		int totalPages=totalRecords % pageSizes ==0?totalRecords / pageSizes:totalRecords / pageSizes +1;
 		//结束索引

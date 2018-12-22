@@ -13,6 +13,7 @@
 		var flag=true;
 		var username=document.getElementById("username").value;
 		var password=document.getElementById("password").value;
+		var password1=document.getElementById("password1").value;
 		var Info=document.getElementById("Info");
 		if(username.length==0 || username==null){
 			Info.innerText="用户名不能为空！";
@@ -22,21 +23,28 @@
 			Info.innerText="密码不能为空！";
 			flag=false;
 		}
+		if(password!=password1){
+			Info.innerText="密码必须一致！";
+			flag=false;
+		}
 		return flag;
 	}
 	
 </script>
 <body>
-	<form action="${ctx}/user?type=edit" method="post" onsubmit="return check();">
+	<form action="${ctx}/user?type=addUser" method="post" onsubmit="return check();">
 		<table align="center" border="1">
-			<input type="hidden" id="id" name="id" value="${user.id}" />
 			<tr>
 				<td><font size="3" color="brown"><strong>用户名:</strong></font></td>
-				<td><input type="text" id="username" name="username" value="${user.userName}"/></td>
+				<td><input type="text" id="username" name="username" /></td>
 			</tr>
 			<tr>
 				<td><font size="3" color="brown"><strong>密码:</strong></font></td>
-				<td><input type="text" id="password" name="password" value="${user.passWord}" /></td>
+				<td><input type="password" id="password" name="password"/ ></td>
+			</tr>
+			<tr>
+				<td><font size="3" color="brown"><strong>确认密码:</strong></font></td>
+				<td><input type="password" id="password1" name="password1"/ ></td>
 			</tr>
 			<tr align="center">
 				<td colspan="2"><input type="submit" value="提交"/></td>

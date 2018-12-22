@@ -113,19 +113,4 @@ public class messageImpel extends BaseDAO implements Imessage {
 		return list;
 	}
 
-	@Override
-	public int count(String sql,Object[] obj) {
-		this.queryBySql(sql, obj);
-		int countTest=-1;
-		try {
-			while(rs.next()) {
-				countTest=rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			this.close(conn, st, rs);
-		}
-		return countTest;
-	}
 }

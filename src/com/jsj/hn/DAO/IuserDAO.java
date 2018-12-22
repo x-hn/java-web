@@ -12,6 +12,11 @@ public interface IuserDAO {
 	public abstract int add(User user);
 	
 	/*
+	 * 增加信息(默认roleid)
+	 */
+	public abstract int addValueRole(User user);
+	
+	/*
 	 * 删除信息
 	 */
 	public abstract int delete(Integer id);
@@ -41,5 +46,5 @@ public interface IuserDAO {
 
 	public abstract List<User> getAll(int page, int pageSizes);
 
-	public abstract int count(String sql, Object[] obj);
+
 }

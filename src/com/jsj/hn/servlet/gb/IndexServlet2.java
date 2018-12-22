@@ -1,5 +1,7 @@
 package com.jsj.hn.servlet.gb;
-
+/**
+ * 物理分页
+ */
 import java.io.IOException;
 import java.util.List;
 

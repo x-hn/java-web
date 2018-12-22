@@ -40,14 +40,13 @@
 		<c:set var="beginIndex" value="${beginIndex}"></c:set>
 		<c:set var="endIndex" value="${endIndex}"></c:set>
 		<c:set var="pageSizes" value="${pageSizes}"></c:set>
-		<c:set var="userList" value="${userList}"></c:set>
+		<c:set var="roleList" value="${roleList}"></c:set>
 	<h3>用户管理</h3>
 	
 	<div>
-		<a href="${ctx}/admin/user/addUser.jsp">新增</a>&nbsp;&nbsp;
-		<a href="${ctx}/admin/user/">修改</a>&nbsp;&nbsp;
+		<a href="${ctx}/admin/role/addRole.jsp">新增</a>&nbsp;&nbsp;
+		<a href="#">修改</a>&nbsp;&nbsp;
 		<a href="#">删除</a>&nbsp;&nbsp;
-		<a href="#">重置密码</a>&nbsp;&nbsp;
 		<a href="#">退出管理后台</a>&nbsp;&nbsp;
 		<a href="${ctx}/index">网站前台</a>&nbsp;&nbsp;
 	</div>
@@ -56,39 +55,37 @@
 		<tr>
 			<td></td>
 			<td>编号</td>
-			<td>账号</td>
 			<td>角色</td>
 			<td>操作</td>
 		</tr>
-		<c:forEach items="${userList}" var="obj">
+		<c:forEach items="${roleList}" var="obj">
 			<tr>
-				<td><input type="checkbox" id="isUser" name="isUser"/></td>
+				<td><input type="checkbox" id="getAll" name="getAll"/></td>
 				<td>${obj.id}</td>
-				<td>${obj.userName}</td>
-				<td>${obj.rolename}</td>
+				<td>${obj.roleName}</td>
 				<td>
-					<a href="${ctx}/user?type=get&id=${obj.id}">编辑</a>
-					<a href="${ctx}/user?type=delete&id=${obj.id}">删除</a>
+					<a href="${ctx}/role?type=get&id=${obj.id}">编辑</a>
+					<a href="${ctx}/role?type=delete&id=${obj.id}">删除</a>
 				</td>
 			</tr>
 		</c:forEach>
 	</table>
 	</div>
 	<div class="h">
-        <p><font face="Geneva"><strong>此用户列表共有${totalPages}页，当前第${page}页</strong></font></p>
-        		<a href="${ctx}/user?type=getAll&page=1">首页</a>
+        <p><font face="Geneva"><strong>此角色列表共有${totalPages}页，当前第${page}页</strong></font></p>
+        		<a href="${ctx}/role?type=getAll&page=1">首页</a>
         		<c:if test="${page!=1}">
-       			<a href="${ctx}/user?type=getAll&page=${page-1<1 ? 1:page-1}">上页</a>
+       			<a href="${ctx}/role?type=getAll&page=${page-1<1 ? 1:page-1}">上页</a>
        			</c:if>
        			<c:forEach begin="1" end="${totalPages}" var="obj">
         			<c:set var="active" value="${page==obj?'active':''}" ></c:set>
         			<c:set var="trueOrfalse" value="${page==obj?'return false':'return true'}" ></c:set>
-        			<a class="${active}" href="${ctx}/user?type=getAll&page=${obj}" onclick="${trueOrfalse}">${obj}</a>
+        			<a class="${active}" href="${ctx}/role?type=getAll&page=${obj}" onclick="${trueOrfalse}">${obj}</a>
        		    </c:forEach>
        		    <c:if test="${page!=totalPages}">
-        		<a href="${ctx}/user?type=getAll&page=${page+1>totalPages ? totalPages:page+1}">下页</a>
+        		<a href="${ctx}/role?type=getAll&page=${page+1>totalPages ? totalPages:page+1}">下页</a>
         		</c:if>
-        		<a href="${ctx}/user?type=getAll&page=${totalPages}">末页</a>
+        		<a href="${ctx}/role?type=getAll&page=${totalPages}">末页</a>
     </div>
 </body>
 </html>

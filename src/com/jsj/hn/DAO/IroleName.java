@@ -27,4 +27,8 @@ public interface IroleName {
 	 * 查询表上所有信息
 	 */
 	public abstract List<Trole> getAll();
+
+	public abstract boolean repeat(String rolename);
+
+	public abstract List<Trole> getAll(int page, int pageSizes);
 }

@@ -1,5 +1,7 @@
 package com.jsj.hn.servlet.gb;
-
+/**
+ * 数据库分页
+ */
 import java.io.IOException;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jsj.hn.DAO.Imessage;
 import com.jsj.hn.DAO.IroleName;
 import com.jsj.hn.DAO.IuserDAO;
+import com.jsj.hn.impel.BaseDAO;
 import com.jsj.hn.impel.messageImpel;
 import com.jsj.hn.impel.troleImpel;
 import com.jsj.hn.impel.userImpel;
@@ -25,6 +28,7 @@ public class IndexServlet extends HttpServlet {
 	private Imessage messageDAO=new messageImpel();
 	private IuserDAO userDAO=new userImpel();
 	private IroleName roleDAO=new troleImpel();
+	private BaseDAO baseDAO=new BaseDAO();
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,7 +60,7 @@ public class IndexServlet extends HttpServlet {
 		String sql="SELECT COUNT(*) FROM message where 1=1";
 		Object[] obj=new Object[] {};
 		//总记录数
-		int totalRecords=messageDAO.count(sql,obj);
+		int totalRecords=baseDAO.count(sql,obj);
 		//总页数
 		int totalPages=totalRecords % pageSizes ==0?totalRecords / pageSizes:totalRecords / pageSizes +1;
 		//结束索引

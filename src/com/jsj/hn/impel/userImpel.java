@@ -18,6 +18,13 @@ public class userImpel extends BaseDAO implements IuserDAO {
 	}
 
 	@Override
+	public int addValueRole(User user) {
+		String sql="insert into tuser(username,password,roleid) values(?,?,2)";
+		Object[] obj=new Object[] {user.getUserName(),user.getPassWord()};
+		return this.updateBySql(sql, obj);
+	}
+	
+	@Override
 	public int delete(Integer id) {
 		String sql="delete from tuser where id="+id;
 		Object[] obj=new Object[] {};
@@ -26,8 +33,8 @@ public class userImpel extends BaseDAO implements IuserDAO {
 
 	@Override
 	public int update(User user) {
-		String sql="update tuser set username=?,password=?,roleid=? where id=?";
-		Object[] obj=new Object[] {user.getUserName(),user.getPassWord(),user.getRoleId(),user.getId()};
+		String sql="update tuser set username=?,password=? where id=?";
+		Object[] obj=new Object[] {user.getUserName(),user.getPassWord(),user.getId()};
 		return this.updateBySql(sql, obj);
 	}
 
@@ -140,21 +147,5 @@ public class userImpel extends BaseDAO implements IuserDAO {
 			this.close(conn, st, rs);
 		}
 		return list;
-	}
-	
-	@Override
-	public int count(String sql,Object[] obj) {
-		this.queryBySql(sql, obj);
-		int countTest=-1;
-		try {
-			while(rs.next()) {
-				countTest=rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			this.close(conn, st, rs);
-		}
-		return countTest;
 	}
 }
