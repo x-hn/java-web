@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>增加用户</title>
 </head>
 <script type="text/javascript">
 	
@@ -50,6 +50,9 @@
 				<td colspan="2"><input type="submit" value="提交"/></td>
 			</tr>
 		</table>
+		<c:if test="${not empty requestScope.regInfo}">
+			<h5 align="center">${requestScope.regInfo}</h5>
+		</c:if>
 		<h5 align="center" id="Info"></h5>
 	</form>
 </body>

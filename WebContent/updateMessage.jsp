@@ -1,16 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" errorPage="/error.jsp"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="/error.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" ></c:set>
-<%@page import="com.jsj.hn.model.*"%>
-<%@page import="com.jsj.hn.DAO.*"%>
-<%@page import="com.jsj.hn.impel.*"%>
-<%@page import="java.util.Date"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>修改留言</title>
 <style>
         *{
             font-size: 14px;

@@ -65,12 +65,22 @@ public class UserServlet extends HttpServlet {
 			addUser(request, response, username, password);
 		}else if(type.equals("delete")) {
 			deleteUser(request, response);
+		}else if(type.equals("value")) {
+			valuePassword(request, response);
 		}
+	}
+	//重置密码
+	private void valuePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Integer id=Integer.parseInt(request.getParameter("id"));
+		user.setId(id);
+		user.setPassWord("0000");
+		userDAO.valuePassword(user);
+		response.sendRedirect(request.getContextPath()+"/user?type=getAll");
 	}
 	//删除用户信息
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String id=request.getParameter("id");
-		userDAO.delete(Integer.parseInt(id));
+		Integer id=Integer.parseInt(request.getParameter("id"));
+		userDAO.delete(id);
 		response.sendRedirect(request.getContextPath()+"/user?type=getAll");
 	}
 	//增加用户信息
@@ -85,7 +95,6 @@ public class UserServlet extends HttpServlet {
 			}else {
 				user.setUserName(username);
 				user.setPassWord(password);
-				//user.setRoleId(2);
 				userDAO.addValueRole(user);
 				response.sendRedirect(request.getContextPath()+"/user?type=getAll");
 			}
@@ -94,15 +103,14 @@ public class UserServlet extends HttpServlet {
 	//通过id编辑用户信息
 	private void edit(HttpServletRequest request, HttpServletResponse response, String username, String password)
 			throws IOException {
-		String id=request.getParameter("id");
-		user.setId(Integer.parseInt(id));
+		Integer id=Integer.parseInt(request.getParameter("id"));
+		user.setId(id);
 		user.setUserName(username);
 		user.setPassWord(password);
-		//user.setRoleId(2);
 		userDAO.update(user);
 		response.sendRedirect(request.getContextPath()+"/user?type=getAll");
 	}
-	//通过获取此用户信息
+	//通过id获取该对象
 	private void get(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id=request.getParameter("id");
 		User u=userDAO.get(Integer.parseInt(id));

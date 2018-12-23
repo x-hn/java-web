@@ -23,6 +23,7 @@ import com.jsj.hn.model.User;
 @WebServlet("/role")
 public class RoleServlet extends HttpServlet {
 	private static final long serialVersionUID = -118660327338658366L;
+	
 	private IroleName roleDAO=new troleImpel();
 	private BaseDAO baseDAO=new BaseDAO();
 	private Trole role=new Trole();
@@ -51,8 +52,8 @@ public class RoleServlet extends HttpServlet {
 	}
 	//删除角色
 	private void deleteRole(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String id=request.getParameter("id");
-		roleDAO.delete(Integer.parseInt(id));
+		Integer id=Integer.parseInt(request.getParameter("id"));
+		roleDAO.delete(id);
 		response.sendRedirect(request.getContextPath()+"/role?type=getAll");
 	}
 	//增加角色
@@ -60,7 +61,7 @@ public class RoleServlet extends HttpServlet {
 			throws ServletException, IOException {
 		if(DUBtilsString.isNotNullandEmpety(rolename) ) {
 			if(roleDAO.repeat(rolename)) {
-				request.setAttribute("regInfo", "角色名已存在！！");
+				request.setAttribute("roleInfo", "角色名已存在！！");
 				RequestDispatcher rd=request.getRequestDispatcher("/admin/role/addRole.jsp");
 				rd.forward(request, response);
 			}else {
@@ -73,16 +74,16 @@ public class RoleServlet extends HttpServlet {
 	//通过id编辑角色信息
 	private void edit(HttpServletRequest request, HttpServletResponse response, String rolename)
 			throws IOException {
-		String id=request.getParameter("id");
-		role.setId(Integer.parseInt(id));
+		Integer id=Integer.parseInt(request.getParameter("id"));
+		role.setId(id);
 		role.setRoleName(rolename);
 		roleDAO.update(role);
 		response.sendRedirect(request.getContextPath()+"/role?type=getAll");
 	}
 	//通过获取此角色信息
 	private void get(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id=request.getParameter("id");
-		Trole r=roleDAO.get(Integer.parseInt(id));
+		Integer id=Integer.parseInt(request.getParameter("id"));
+		Trole r=roleDAO.get(id);
 		request.setAttribute("role", r);
 		RequestDispatcher rd=request.getRequestDispatcher("admin/role/editRole.jsp");
 		rd.forward(request, response);

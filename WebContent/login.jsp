@@ -2,7 +2,6 @@
     pageEncoding="UTF-8" errorPage="/error.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" ></c:set>
-<%@page import="com.jsj.hn.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,7 +61,7 @@
 			<tr align="center" >
 				<td colspan="2">
 					<input type="submit" value="登录"/>
-					<input type="checkbox" name="isUserCookie" />记住密码
+					<input type="checkbox" name="isUserCookie" checked="checked"/>记住密码
 				</td>
 			</tr>
 		</table>

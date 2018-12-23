@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>增加角色</title>
 </head>
 <script type="text/javascript">
 	
@@ -14,7 +14,7 @@
 		var rolename=document.getElementById("rolename").value;
 		var Info=document.getElementById("Info");
 		if(rolename.length==0 || rolename==null){
-			Info.innerText="角色不能为空！";
+			Info.innerText="角色名不能为空！";
 			flag=false;
 		}
 		return flag;
@@ -31,6 +31,9 @@
 				<td colspan="2"><input type="submit" value="保存"/></td>
 			</tr>
 		</table>
+		<c:if test="${not empty requestScope.roleInfo}">
+			<h5 align="center">${requestScope.roleInfo}</h5>
+		</c:if>
 		<h5 align="center" id="Info"></h5>
 	</form>
 </body>

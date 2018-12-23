@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>主页面</title>
 <style>
         *{
             font-size: 14px;
@@ -41,12 +41,13 @@
         	  <a href="${ctx}/resgiter.jsp">注册</a>
         	</c:when>
         	<c:otherwise>
+        		亲爱的&nbsp;&nbsp;${sessionScope.loginUser.userName}&nbsp; 
+        	   	<c:if test="${sessionScope.loginUser.roleId eq 1}">管理员&nbsp;&nbsp;</c:if>
         	  <%if(Calendar.getInstance().get(Calendar.AM_PM)==Calendar.AM){%>
-        	     上午好，<span>
+        	    上午好！<span>
        		  <%}else{ %>
-        	     下午好，<span>
+        	     下午好！<span>
        		  <% }%>
-        		${sessionScope.loginUser.userName}</span>！
         		<a href="${ctx}/user?type=cancel" >注销账户</a>
         		
      			<p>

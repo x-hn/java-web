@@ -37,14 +37,13 @@ public interface IuserDAO {
 	 */
 	public User login(String username,String password);
 	/*
-	 * 判断注册是用户是否重复
+	 * 判断用户名是否重复
 	 */
 	public boolean repeat(String username);
-	/*
-	 * 获取要注销的用户id
-	 */
-
+	//数据库分页
 	public abstract List<User> getAll(int page, int pageSizes);
+	//重置密码
+	public abstract int valuePassword(User user);
 
 
 }

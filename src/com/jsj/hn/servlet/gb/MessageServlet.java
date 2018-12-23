@@ -34,12 +34,12 @@ public class MessageServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		
+		String type=request.getParameter("type");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
+		
 		session=request.getSession();
 		loginU=(User) session.getAttribute("loginUser");
-		String type=request.getParameter("type");
-		
 		sdf=new SimpleDateFormat("yyyy"+"年"+"MM"+"月"+"dd"+"日");
 		
 		PrintWriter out=response.getWriter();
@@ -84,7 +84,6 @@ public class MessageServlet extends HttpServlet {
 	//增加留言
 	private void addMessage(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session,String title,String content) throws ServletException, IOException {
-		
 		String time=sdf.format(new Date());
 		if(DUBtilsString.isNotNullandEmpety(title)&&DUBtilsString.isNotNullandEmpety(content)) {
 			message.setTitle(title);

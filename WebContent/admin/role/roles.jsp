@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>角色管理</title>
 </head>
 <style>
 	h3{
@@ -45,22 +45,22 @@
 	
 	<div>
 		<a href="${ctx}/admin/role/addRole.jsp">新增</a>&nbsp;&nbsp;
-		<a href="#">修改</a>&nbsp;&nbsp;
-		<a href="#">删除</a>&nbsp;&nbsp;
+		<a href="${ctx}/role?type=get&id=" id="editRole">修改</a>&nbsp;&nbsp;
+		<a href="${ctx}/role?type=delete&id=" id="dRole">删除</a>&nbsp;&nbsp;
 		<a href="#">退出管理后台</a>&nbsp;&nbsp;
 		<a href="${ctx}/index">网站前台</a>&nbsp;&nbsp;
 	</div>
 	<div>
 	<table>
 		<tr>
-			<td></td>
+			<td><input type="checkbox" id="checkAll" name="checkAll"/></td>
 			<td>编号</td>
 			<td>角色</td>
 			<td>操作</td>
 		</tr>
 		<c:forEach items="${roleList}" var="obj">
 			<tr>
-				<td><input type="checkbox" id="getAll" name="getAll"/></td>
+				<td><input type="checkbox" id="checkOne" name="checkOne" value="${obj.id}"/></td>
 				<td>${obj.id}</td>
 				<td>${obj.roleName}</td>
 				<td>
@@ -70,6 +70,69 @@
 			</tr>
 		</c:forEach>
 	</table>
+<script>
+	var checkAll=document.getElementById("checkAll");
+	var checkOnes=document.getElementsByName("checkOne");
+	var editRole=document.getElementById("editRole");
+	var dRole=document.getElementById("dRole");
+	checkAll.onclick=function(){
+		if(checkAll.checked){
+			for(var i=0;i<checkOnes.length;i++){
+				checkOnes[i].checked=true;
+			}
+		}else{
+			for(var i=0;i<checkOnes.length;i++){
+				checkOnes[i].checked=false;
+			}
+		}		
+	}
+	for(var i=0;i<checkOnes.length;i++){
+		checkOnes[i].onclick=function(){
+			var flag=true;
+			for(var i=0;i<checkOnes.length;i++){
+				if(checkOnes[i].checked==false){
+					flag=false;
+					break;
+				}
+			}
+			checkAll.checked=flag;
+		}
+	}
+	editRole.onclick=function(){
+		var count=0;
+		var id=0;
+		for(var i=0;i<checkOnes.length;i++){
+			if(checkOnes[i].checked==true){
+				count=count+1;
+				id=checkOnes[i].value;
+			}
+		}
+		if(count!=1){
+			alert("您只能选择1条记录进行编辑！");
+			return false;
+		}else{
+			editRole.href="${ctx}/role?type=get&id="+id;
+			return true;
+		}
+	}
+	dRole.onclick=function(){
+		var count=0;
+		var id=0;
+		for(var i=0;i<checkOnes.length;i++){
+			if(checkOnes[i].checked==true){
+				count=count+1;
+				id=checkOnes[i].value;
+			}
+		}
+		if(count!=1){
+			alert("您只能选择1条记录进行编辑！");
+			return false;
+		}else{
+			dRole.href="${ctx}/role?type=delete&id="+id;
+			return true;
+		}
+	}
+</script>
 	</div>
 	<div class="h">
         <p><font face="Geneva"><strong>此角色列表共有${totalPages}页，当前第${page}页</strong></font></p>

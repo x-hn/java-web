@@ -27,8 +27,8 @@ public interface IroleName {
 	 * 查询表上所有信息
 	 */
 	public abstract List<Trole> getAll();
-
+	//判断角色名是否重复
 	public abstract boolean repeat(String rolename);
-
+	//数据库分页
 	public abstract List<Trole> getAll(int page, int pageSizes);
 }

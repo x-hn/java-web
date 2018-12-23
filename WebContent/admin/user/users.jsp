@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>用户管理</title>
 </head>
 <style>
 	h3{
@@ -45,16 +45,16 @@
 	
 	<div>
 		<a href="${ctx}/admin/user/addUser.jsp">新增</a>&nbsp;&nbsp;
-		<a href="${ctx}/admin/user/">修改</a>&nbsp;&nbsp;
-		<a href="#">删除</a>&nbsp;&nbsp;
-		<a href="#">重置密码</a>&nbsp;&nbsp;
+		<a href="${ctx}/user?type=get&id=" id="editUser">修改</a>&nbsp;&nbsp;
+		<a href="${ctx}/user?type=delete&id=" id="dUser">删除</a>&nbsp;&nbsp;
+		<a href="${ctx}/user?type=value&id=" id="valuePassword">重置密码</a>&nbsp;&nbsp;
 		<a href="#">退出管理后台</a>&nbsp;&nbsp;
 		<a href="${ctx}/index">网站前台</a>&nbsp;&nbsp;
 	</div>
 	<div>
 	<table>
 		<tr>
-			<td></td>
+			<td><input type="checkbox" id="checkAll" name="checkAll"/></td>
 			<td>编号</td>
 			<td>账号</td>
 			<td>角色</td>
@@ -62,17 +62,97 @@
 		</tr>
 		<c:forEach items="${userList}" var="obj">
 			<tr>
-				<td><input type="checkbox" id="isUser" name="isUser"/></td>
+				<td><input type="checkbox" id="checkOne" name="checkOne" value="${obj.id}"/></td>
 				<td>${obj.id}</td>
 				<td>${obj.userName}</td>
 				<td>${obj.rolename}</td>
 				<td>
 					<a href="${ctx}/user?type=get&id=${obj.id}">编辑</a>
-					<a href="${ctx}/user?type=delete&id=${obj.id}">删除</a>
+					<a href="${ctx}/user?type=delete&id=${obj.id}" onclick="return confirm('确定要删除？');">删除</a>
 				</td>
 			</tr>
 		</c:forEach>
 	</table>
+<script>
+	var checkAll=document.getElementById("checkAll");
+	var checkOnes=document.getElementsByName("checkOne");
+	var editUser=document.getElementById("editUser");
+	var dUser=document.getElementById("dUser");
+	checkAll.onclick=function(){
+		if(checkAll.checked){
+			for(var i=0;i<checkOnes.length;i++){
+				checkOnes[i].checked=true;
+			}
+		}else{
+			for(var i=0;i<checkOnes.length;i++){
+				checkOnes[i].checked=false;
+			}
+		}		
+	}
+	for(var i=0;i<checkOnes.length;i++){
+		checkOnes[i].onclick=function(){
+			var flag=true;
+			for(var i=0;i<checkOnes.length;i++){
+				if(checkOnes[i].checked==false){
+					flag=false;
+					break;
+				}
+			}
+			checkAll.checked=flag;
+		}
+	}
+	editUser.onclick=function(){
+		var count=0;
+		var id=0;
+		for(var i=0;i<checkOnes.length;i++){
+			if(checkOnes[i].checked==true){
+				count=count+1;
+				id=checkOnes[i].value;
+			}
+		}
+		if(count!=1){
+			alert("您只能选择1条记录进行编辑！");
+			return false;
+		}else{
+			editUser.href="${ctx}/user?type=get&id="+id;
+			return true;
+		}
+	}
+	dUser.onclick=function(){
+		var count=0;
+		var id=0;
+		for(var i=0;i<checkOnes.length;i++){
+			if(checkOnes[i].checked==true){
+				count=count+1;
+				id=checkOnes[i].value;
+			}
+		}
+		if(count!=1){
+			alert("您只能选择1条记录进行编辑！");
+			return false;
+		}else{
+			dUser.href="${ctx}/user?type=delete&id="+id;
+			return true;
+		}
+	}
+	valuePassword.onclick=function(){
+		var count=0;
+		var id=0;
+		for(var i=0;i<checkOnes.length;i++){
+			if(checkOnes[i].checked==true){
+				count=count+1;
+				id=checkOnes[i].value;
+			}
+		}
+		if(count!=1){
+			alert("您只能选择1条记录进行编辑！");
+			return false;
+		}else{
+			valuePassword.href="${ctx}/user?type=value&id="+id;
+			return true;
+		}
+	}
+</script>
 	</div>
 	<div class="h">
         <p><font face="Geneva"><strong>此用户列表共有${totalPages}页，当前第${page}页</strong></font></p>

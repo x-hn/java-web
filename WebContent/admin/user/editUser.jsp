@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>编辑用户</title>
 </head>
 <script type="text/javascript">
 	
