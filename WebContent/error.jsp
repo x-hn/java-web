@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>错误提示</title>
 <style>
         *{
             font-size: 14px;
@@ -33,7 +33,7 @@
 <body>
 	<div id="success_content">
 		<div class="success_left">
-			<img alt="" src="errror.jpg">
+			<img alt="" src="${ctx}/photo/errror.jpg">
 		</div>
 		<div class="success_right">
 			<p class="demo"><%=exception %></p>

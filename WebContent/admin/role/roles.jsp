@@ -41,7 +41,7 @@
 		<c:set var="endIndex" value="${endIndex}"></c:set>
 		<c:set var="pageSizes" value="${pageSizes}"></c:set>
 		<c:set var="roleList" value="${roleList}"></c:set>
-	<h3>用户管理</h3>
+	<h3>角色管理</h3>
 	
 	<div>
 		<a href="${ctx}/admin/role/addRole.jsp">新增</a>&nbsp;&nbsp;
@@ -65,7 +65,7 @@
 				<td>${obj.roleName}</td>
 				<td>
 					<a href="${ctx}/role?type=get&id=${obj.id}">编辑</a>
-					<a href="${ctx}/role?type=delete&id=${obj.id}">删除</a>
+					<a href="${ctx}/role?type=delete&id=${obj.id}" onclick="return confirm('确定要删除？');">删除</a>
 				</td>
 			</tr>
 		</c:forEach>
@@ -87,7 +87,7 @@
 		}		
 	}
 	for(var i=0;i<checkOnes.length;i++){
-		checkOnes[i].onclick=function(){
+		checkOnes[i].onclick=function(){6
 			var flag=true;
 			for(var i=0;i<checkOnes.length;i++){
 				if(checkOnes[i].checked==false){

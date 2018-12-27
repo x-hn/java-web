@@ -53,7 +53,7 @@
 </script>
 </head>
 	<h1 align="center">欢迎进入留言系统</h1>
-<body background="message.jpg">
+<body background="${ctx}/photo/message.jpg">
 	<div>
 	<form action="${ctx}/message?type=addMessage" method="post" onsubmit="return check();">
 		<table>

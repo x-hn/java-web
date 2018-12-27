@@ -7,7 +7,7 @@
 		text-decoration: none;
 	}
 </style>
-<body background="index.jpg">
+<body background="${ctx}/photo/index.jpg">
 		<c:set var="page" value="${page}"></c:set>
 		<c:set var="totalRecords" value="${totalRecords}"></c:set>
 		<c:set var="totalPages" value="${totalPages}"></c:set>

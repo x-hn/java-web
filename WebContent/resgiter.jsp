@@ -32,7 +32,7 @@
 </script>
 </head>
 	<h1 align="center">欢迎来到注册界面</h1>
-<body background="resgiter.jpg">
+<body background="${ctx}/photo/resgiter.jpg">
 	<form action="${ctx}/user?type=resgiter" method="post" onsubmit="return check();">
 		<table align="center" border="1">
 			<tr>

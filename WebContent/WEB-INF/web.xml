@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
-  <display-name>guestbook</display-name>
-  <context-param>
-    <param-name>sitename</param-name>
-    <param-value>****管理系统</param-value>
-  </context-param>
-  <context-param>
-    <param-name>developer</param-name>
-    <param-value>jsjpuban</param-value>
-  </context-param>
-  
+<filter>
+	<filter-name>setCharacterEncodingFilter</filter-name>
+	<filter-class>com.jsj.hn.filter.setCharacterEncodingFilter</filter-class>
+	<init-param>
+		<param-name>encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</init-param>
+</filter>
+<filter-mapping>
+	<filter-name>setCharacterEncodingFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+<listener>
+	<description>持久存取页面访问计数</description>
+	<listener-class>com.jsj.hn.listener.VisitCountListener</listener-class>
+</listener>
 </web-app>

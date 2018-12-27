@@ -42,7 +42,7 @@
 			}
 		}
 	%>
-<body background="login.jpg">
+<body background="${ctx}/photo/login.jpg">
 	<form id="form1" action="${ctx}/user?type=login" method="post" onsubmit="return check();">
 		<table align="center" border="1">
 			<tr>
@@ -70,6 +70,9 @@
 		</c:if>
 		<c:if test="${not empty requestScope.validateCode}">
 			<h5 align="center">${requestScope.validateCode}</h5>
+		</c:if>
+		<c:if test="${not empty requestScope.tip}">
+			<h5 align="center">${requestScope.tip}</h5>
 		</c:if>
 	</form>	
 </body>

@@ -36,7 +36,7 @@
 </style>
 </head>
 	<h2 align="center">编辑留言</h2>
-<body  background="message.jpg">
+<body  background="${ctx}/photo/message.jpg">
 	<div>
 	<form action="${ctx}/message?type=updateMessage" method="post">
 		<table>
