@@ -121,34 +121,38 @@
 	dUser.onclick=function(){
 		var count=0;
 		var id=0;
+		var arr = new Array();
 		for(var i=0;i<checkOnes.length;i++){
 			if(checkOnes[i].checked==true){
-				count=count+1;
 				id=checkOnes[i].value;
+				arr[count]=id;
+				count=count+1;
 			}
 		}
-		if(count!=1){
-			alert("您只能选择1条记录进行编辑！");
+		if(count==0){
+			alert("您至少选择1条记录进行删除！");
 			return false;
 		}else{
-			dUser.href="${ctx}/user?type=delete&id="+id;
+			dUser.href="${ctx}/user?type=deleteAll&id="+arr;
 			return true;
 		}
 	}
 	valuePassword.onclick=function(){
 		var count=0;
 		var id=0;
+		var arr = new Array();
 		for(var i=0;i<checkOnes.length;i++){
 			if(checkOnes[i].checked==true){
-				count=count+1;
 				id=checkOnes[i].value;
+				arr[count]=id;
+				count=count+1;
 			}
 		}
-		if(count!=1){
-			alert("您只能选择1条记录进行编辑！");
+		if(count==0){
+			alert("您至少选择1条记录进行操作！");
 			return false;
 		}else{
-			valuePassword.href="${ctx}/user?type=value&id="+id;
+			valuePassword.href="${ctx}/user?type=value&id="+arr;
 			return true;
 		}
 	}

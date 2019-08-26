@@ -37,13 +37,13 @@ public class UserServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		
+
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
 		String type=request.getParameter("type");
 		String isUserCookie=request.getParameter("isUserCookie");
 		String isUser=request.getParameter("isUser");
-		
+
 		session=request.getSession();
 		loginU=(User) session.getAttribute("loginUser");
 		sessionCode=(String)session.getAttribute("ValidateCode");
@@ -67,14 +67,32 @@ public class UserServlet extends HttpServlet {
 			deleteUser(request, response);
 		}else if(type.equals("value")) {
 			valuePassword(request, response);
+		}else if(type.equals("deleteAll")) {
+			deleteMass(request, response);
+		}
+	}
+	//批量删除用户信息
+	private void deleteMass(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String  ids=request.getParameter("id");
+		if(ids!=null) {
+			String[] id=ids.split(",");
+			for(int i=0;i<id.length;i++) {		
+				userDAO.delete(Integer.parseInt(id[i])); 
+			}
+			response.sendRedirect(request.getContextPath()+"/user?type=getAll");
 		}
 	}
 	//重置密码
 	private void valuePassword(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Integer id=Integer.parseInt(request.getParameter("id"));
-		user.setId(id);
-		user.setPassWord("0000");
-		userDAO.valuePassword(user);
+		String  ids=request.getParameter("id");
+		if(ids!=null) {
+			String[] id=ids.split(",");
+			for(int i=0;i<id.length;i++) {	
+				user.setId(Integer.parseInt(id[i]));
+				user.setPassWord("0000");
+				userDAO.valuePassword(user);
+			}
+		}
 		response.sendRedirect(request.getContextPath()+"/user?type=getAll");
 	}
 	//删除用户信息
@@ -132,9 +150,9 @@ public class UserServlet extends HttpServlet {
 		int pageSizes=3;
 		//开始索引
 		int beginIndex=(page-1)*pageSizes;
-		
+
 		List<User> userList=userDAO.getAll(page,pageSizes);
-		
+
 		for(User u:userList) {
 			if(u.getRoleId()!=null) {
 				u.setRolename((roleDAO.get(u.getRoleId())).getRoleName());
@@ -221,7 +239,7 @@ public class UserServlet extends HttpServlet {
 					RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");
 					rd.forward(request, response);
 				}
-				
+
 			}else {
 				request.setAttribute("loginname", "用户名或密码错误！");
 				RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");

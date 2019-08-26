@@ -56,11 +56,11 @@
 			<tr>
 				<td><font size="3"><strong>请输入验证码: </strong></font></td>
 				<td><input type="text" name="verifyCode"/></td>
-				<td><img src="${ctx}/ValidateCodeServlet" id="validatecode" title="单击换一张" onclick="changeValidateCode()" /><a href="javascript:changeValidateCode();">看不清？</a></td>
+				<td><img src="${ctx}/ValidateCodeServlet" id="validatecode" title="单击换一张" onClick="changeValidateCode()" /><a href="javascript:changeValidateCode();">看不清？</a></td>
 			</tr>
 			<tr align="center" >
 				<td colspan="2">
-					<input type="submit" value="登录"/>
+					<input type=submit value="登录"/>
 					<input type="checkbox" name="isUserCookie" checked="checked"/>记住密码
 				</td>
 			</tr>

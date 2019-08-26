@@ -28,6 +28,34 @@
 		}
 		return flag;
 	}
+	var xhr=false;
+	function createXHR(){
+		try{
+			xhr=new XMLHttpRequest();
+		}catch (e){
+			try{
+				xhr=new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e1){
+				xhr=false;
+			}
+		}
+		if(!xhr)
+			alert("初始化XMLHttpRequest 对象失败！");
+	}
+	function ajaxValidate(nameObj){
+		createXHR();
+		var url="user?type=resgiter";
+		var content="type=nameAjaxValidate&username="+nameObj.value;
+		xhr.open("POST",url,true);
+		xhr.onreadystatechange=function(){
+			if(xhr.readyState==4 && xhr.status==200){
+				document.getElementById("nameValidate").innerHTML=xhr.responseText;
+			}
+		};
+		xhr.setRequestHeader("Content-Length",content.length);
+		xhr.setRequestHeader("CONTENT-TYPE","application/x-www-form-urlencoded");
+		xhr.send(content);
+	}
 	
 </script>
 </head>
@@ -37,7 +65,8 @@
 		<table align="center" border="1">
 			<tr>
 				<td><font size="3" color="brown"><strong>用户名:</strong></font></td>
-				<td><input type="text" id="username" name="username"/></td>
+				<td><input type="text" id="username" name="username" onblur="ajaxValidate(this)"/></td>
+				<label style="color: red" id="nameValidate"></label>
 			</tr>
 			<tr>
 				<td><font size="3" color="brown"><strong>密码:</strong></font></td>

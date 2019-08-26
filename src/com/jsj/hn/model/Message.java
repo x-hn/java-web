@@ -66,5 +66,11 @@ public class Message {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	@Override
+	public String toString() {
+		return "Message [id=" + id + ", title=" + title + ", content=" + content + ", createDateTime=" + createDateTime
+				+ ", userId=" + userId + ", pid=" + pid + ", username=" + username + "]";
+	}
 	
 }
